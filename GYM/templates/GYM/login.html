@@ -1,0 +1,35 @@
+{% extends 'rbk/base.html' %}
+{% load static %}
+{% block title %}Login{% endblock title %}
+{% block main-content %}
+<div class="container">
+ <div class="row my-3">
+  <div class="col-sm-6 offset-sm-3">
+   <h3>Login</h3>
+   <hr>
+     <form action="" method="post" novalidate class="shadow p-5">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="id_username" class="form-label">Username</label>
+        <input type="text" name="username" class="form-control form-control-lg rounded-pill px-4" id="id_username" placeholder="Enter your username" required>
+      </div>
+      <div class="mb-3">
+        <label for="id_password" class="form-label">Password</label>
+        <input type="password" name="password" class="form-control form-control-lg rounded-pill px-4" id="id_password" placeholder="Enter your password" required>
+      </div>
+      <small><a href="{% url 'changepassword' %}">Forgot Password ?</a></small> <br>
+      <input type="submit" class="btn btn-primary mt-4 px-5 rounded-pill" value="Login">
+      <br>
+      <div class="text-center text-primary fw-bold"><small>New to ShoppinglyX ? <a href="{% url 'customerregistration' %}"
+         class="text-danger">Create an Account</a> </small></div>
+     </form>
+     <style>
+       .form-control-lg { font-size: 1.25rem; height: 3rem; }
+       .rounded-pill { border-radius: 50rem!important; }
+       .px-4 { padding-left: 1.5rem!important; padding-right: 1.5rem!important; }
+       .px-5 { padding-left: 3rem!important; padding-right: 3rem!important; }
+     </style>
+  </div>
+ </div>
+</div>
+{% endblock main-content %}

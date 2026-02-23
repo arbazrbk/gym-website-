@@ -1,0 +1,37 @@
+{% extends 'rbk/base.html' %}
+{% load static %}
+{% block title %}Customer Registration{% endblock title %}
+{% block main-content %}
+<div class="container">
+ <div class="row my-3">
+  <div class="col-sm-6 offset-sm-3">
+   <h3>Customer Registration</h3>
+   <hr>
+
+   <form action="" method="post" novalidate class="shadow p-5">
+    {% csrf_token %}
+      <div class="mb-3">
+         <label for="id_email" class="form-label">Email</label>
+         <input type="text" name="email" class="form-control" id="id_email" placeholder="Enter email" required>
+      </div>
+      <div class="mb-3">
+         <label for="id_password" class="form-label">Password</label>
+         <input type="password" name="password" class="form-control" id="id_password" placeholder="Enter password" required>
+      </div>
+      {{ form.as_p }}
+    <div class="text-end">
+     <button type="submit" class="btn btn-danger">Submit</button>
+    </div>
+    <br>
+    <div class="text-center text-primary fw-bold"><small>Existing User ? <a href="{% url 'login' %}"
+       class="text-danger">Login Now</a> </small></div>
+    {% if form.non_field_errors %}
+    {% for error in form.non_field_errors %}
+    <p class="alert alert-danger my-3">{{error}}</p>
+    {% endfor %}
+    {% endif %}
+   </form>
+  </div>
+ </div>
+</div>
+{% endblock main-content %}
