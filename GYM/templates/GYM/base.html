@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title>{% block title %}Gympro - Fitness and Gym{% endblock %}</title>
+    
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/slicknav.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/swiper-bundle.min.css">
+    <link href="css/all.min.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="css/mousecursor.css">
+    <link href="css/custom.css" rel="stylesheet">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="preloader">
+        <div class="loading-container"><div class="loading"></div><div id="loading-icon"><img src="images/loader.svg" alt=""></div></div>
+    </div>
+
+    <header class="main-header">
+        <div class="header-sticky">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container">
+                    <a class="navbar-brand" href="index.html"><img src="images/logo.svg" alt="Logo"></a>
+                    <div class="collapse navbar-collapse main-menu">
+                        <ul class="navbar-nav mr-auto" id="menu">
+                            <li class="nav-item submenu"><a class="nav-link" href="{% url 'home' %}">Home</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'programs' %}">Programs</a></li>
+                            <li class="nav-item submenu"><a class="nav-link" href="#">Pages</a>
+                                <ul>
+                                    <li><a href="{% url 'program_details' %}">Program Details</a></li>
+                                    <li><a href="{% url 'trainers' %}">Our Trainers</a></li>
+                                    <li><a href="{% url 'trainer_details' %}">Trainer Details</a></li>
+                                    <li><a href="{% url 'pricing' %}">Pricing Plan</a></li>
+                                    <li><a href="{% url 'testimonials' %}">Testimonials</a></li>
+                                    <li><a href="{% url 'feedback' %}">Feedback</a></li>
+                                    <li><a href="{% url 'faqs' %}">FAQs</a></li>
+                                    <li><a href="{% url 'error_404' %}">404</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact Us</a></li>
+                        </ul>
+                        <div class="header-btn"><a href="{% url 'contact' %}" class="btn-default btn-highlighted">Book Free Trial</a></div>
+                    </div>
+                    <div class="navbar-toggle"></div>
+                </div>
+            </nav>
+            <div class="responsive-menu"></div>
+        </div>
+    </header>
+
+    {% block content %}{% endblock %}
+
+    <footer class="main-footer bg-section dark-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="footer-header">
+                        <div class="footer-logo"><img src="images/logo.svg" alt=""></div>
+                        <div class="section-title"><h2>Empowering Your Fitness Journey with Expert Training and Lasting Results</h2></div>
+                    </div>
+                </div>
+                </div>
+            <div class="footer-copyright-text"><p>Copyright © 2026 All Rights Reserved.</p></div>
+        </div>
+    </footer>
+
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/swiper-bundle.min.js"></script>
+    <script src="js/wow.min.js"></script>
+    <script src="js/function.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

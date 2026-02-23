@@ -1,0 +1,65 @@
+{% extends "GYM/base.html" %}
+
+{% block title %}Submit Feedback - Gympro Fitness{% endblock %}
+
+{% block content %}
+    <div class="page-header bg-section dark-section parallaxie">
+        <div class="container">
+            <div class="page-header-box">
+                <h1 class="text-anime-style-3" data-cursor="-opaque">Feedback & Complaints</h1>
+                <nav class="wow fadeInUp">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'home' %}">home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Feedback</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-contact-us">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="contact-image-form-box">
+                        <div class="contact-form">
+                            <div class="section-title">
+                                <h2 class="text-anime-style-3" data-cursor="-opaque">Share Your Experience</h2>
+                                <p class="wow fadeInUp" data-wow-delay="0.2s">Aapka feedback hamare liye bohot zaroori hai. Niche diye gaye form ko bharein.</p>
+                            </div>
+
+                            <form method="POST" class="wow fadeInUp" data-wow-delay="0.4s">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="form-group col-md-12 mb-4">
+                                        <label>Title / Subject *</label>
+                                        <input type="text" name="title" class="form-control" placeholder="e.g. Service Issue or Trainer Appreciation" required>
+                                    </div>
+
+                                    <div class="form-group col-md-12 mb-4">
+                                        <label>Select Trainer (Optional)</label>
+                                        <select name="Trainer" class="form-control" style="background: transparent; color: #fff; border: 1px solid #333;">
+                                            <option value="" selected>None / General Feedback</option>
+                                            {% for trainer in trainers %}
+                                                <option value="{{ trainer.id }}">{{ trainer.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-md-12 mb-5">
+                                        <label>Your Message *</label>
+                                        <textarea name="message" class="form-control" rows="5" placeholder="Detail mein bataein..." required></textarea>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn-default">Submit Feedback</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
