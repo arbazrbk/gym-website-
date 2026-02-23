@@ -166,6 +166,9 @@ class trainer_registration(View):
             return render(request, 'GYM/trainer_registration.html', {'form': form})
         return render(request, 'GYM/trainer_registration.html', {'form': form})
     
+def buy_now(request):
+    return render(request, 'GYM/buynow.html')
+   
 def showcart(request):
     if request.user.is_authenticated:
         user = request.user
@@ -263,3 +266,7 @@ def remove_cart(request):
            c = Cart.objects.get(Q(product=prod_id) & Q(user=request.user))
            c.delete()
            return redirect('showcart')  
+       
+def address(request):
+    add = Customer.objects.filter(user=request.user)
+    return render(request, 'GYM/address.html', {'add': add})       
