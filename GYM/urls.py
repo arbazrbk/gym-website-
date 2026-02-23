@@ -16,4 +16,6 @@ urlpatterns = [
     path('programs/', views.programs, name='programs'),
     path('program-single/', views.program_single, name='program_details'),
     path('feedback/', views.feedback, name='feedback'),
+    path('trainer_registration/', views.trainer_registration.as_view(), name='trainer_registration'),
+    path('customer_registration/', views.customer_registration.as_view(), name='customer_registration'),
 ]

@@ -1,14 +1,16 @@
+from urllib import request
 from django.shortcuts import render
 from .models import Trainer, Customer, Product, Cart, OrderPlaced
-from .foams import CustomerRegistrationForm, ProductForm, FeedbackForm
+from .foams import CustomerRegistrationForm,TrainerRegistrationForm, ProductForm, FeedbackForm
 from django.contrib import messages
 from datetime import datetime, timedelta
 from django.views import View
 from django.shortcuts import redirect
 from django.db.models import Q
 
+
 def home(request):
-    return render(request, 'GYM/home.html')
+    return render(request, 'GYM/home.html')  
 
 def about(request):
     return render(request, 'GYM/about.html')
@@ -19,7 +21,7 @@ def programs(request):
 def program_single(request):
     user = request.user
     program_id = request.GET.get('program_id')
-    weight  = request.GET.get('age')
+    weight  = request.GET.get('weight')
     height = request.GET.get('height')
     bmi = 0.0
     if weight and height:
@@ -153,19 +155,33 @@ def feedback(request):
         return render(request, 'GYM/feedback.html', {'form': form})
     return render(request, 'GYM/feedback.html')
 
-class trainer_registration(View):
+class customer_registration(View):
     def get(self, request):
         form = CustomerRegistrationForm()
-        return render(request, 'GYM/trainer_registration.html', {'form': form})
+        return render(request, 'GYM/customerregistration.html', {'form': form})
     
     def post(self, request):
         form = CustomerRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Customer registered successfully!')
+            return render(request, 'GYM/customerregistration.html', {'form': form})
+        return render(request, 'GYM/customerregistration.html', {'form': form})
+
+class trainer_registration(View):
+    def get(self, request):
+        form = TrainerRegistrationForm()
+        return render(request, 'GYM/trainer_registration.html', {'form': form})
+    
+    def post(self, request):
+        form = TrainerRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'Trainer registered successfully!')
             return render(request, 'GYM/trainer_registration.html', {'form': form})
         return render(request, 'GYM/trainer_registration.html', {'form': form})
     
+        
 def buy_now(request):
     return render(request, 'GYM/buynow.html')
    

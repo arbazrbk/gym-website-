@@ -36,6 +36,13 @@
                             </li>
                             <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
                             <li class="nav-item"><a class="nav-link" href="{% url 'programs' %}">Programs</a></li>
+                            <li class="nav-item submenu"><a class="nav-link" href="#">Products</a>
+                                <ul>
+                                    <li><a href="#">protein</a></li>
+                                    <li><a href="#">shirt</a></li>
+                                    <li><a href="#">shoes</a></li>
+                                </ul> 
+                            </li> 
                             <li class="nav-item submenu"><a class="nav-link" href="#">Pages</a>
                                 <ul>
                                     <li><a href="{% url 'program_details' %}">Program Details</a></li>
@@ -44,13 +51,21 @@
                                     <li><a href="{% url 'pricing' %}">Pricing Plan</a></li>
                                     <li><a href="{% url 'testimonials' %}">Testimonials</a></li>
                                     <li><a href="{% url 'feedback' %}">Feedback</a></li>
+                                    <li><a href="#">Address</a></li>
                                     <li><a href="{% url 'faqs' %}">FAQs</a></li>
                                     <li><a href="{% url 'error_404' %}">404</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact Us</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#">add_to_cart</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#">Login</a></li>
+                            <li class="nav-item"><a class="nav-link submenu" href="#">registration</a>                                 
+                                <ul>
+                                    <li><a href="{% url 'customer_registration' %}">Customer Registration</a></li>
+                                    <li><a href="{% url 'trainer_registration' %}">Trainer Registration</a></li>
+                                </ul>
+                            </li>
                         </ul>
-                        <div class="header-btn"><a href="{% url 'contact' %}" class="btn-default btn-highlighted">Book Free Trial</a></div>
                     </div>
                     <div class="navbar-toggle"></div>
                 </div>
