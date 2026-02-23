@@ -171,15 +171,15 @@ class customer_registration(View):
 class trainer_registration(View):
     def get(self, request):
         form = TrainerRegistrationForm()
-        return render(request, 'GYM/trainer_registration.html', {'form': form})
+        return render(request, 'GYM/trainerregistration.html', {'form': form})
     
     def post(self, request):
         form = TrainerRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'Trainer registered successfully!')
-            return render(request, 'GYM/trainer_registration.html', {'form': form})
-        return render(request, 'GYM/trainer_registration.html', {'form': form})
+            return render(request, 'GYM/trainerregistration.html', {'form': form})
+        return render(request, 'GYM/trainerregistration.html', {'form': form})
     
         
 def buy_now(request):
