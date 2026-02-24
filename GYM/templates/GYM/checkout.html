@@ -1,47 +1,162 @@
 {% extends 'GYM/base.html' %}
 {% load static %}
-{% block title %}Checkout{% endblock title %}
+{% block title %}Checkout - Gympro Fitness{% endblock title %}
 {% block content %}
-<div class="container">
- <div class="row mt-5">
-  <div class="col-sm-6">
-    <h4>Order Summary</h4>
-    <hr>
-      {% for item in cart_product %}
-      <div class="card mb-2">
-        <div class="card-body">
-          <h5>Product: {{ item.product.title }}</h5>
-          <p>Quantity: {{ item.quantity }}</p>
-          <p class="fw-bold">Price: {{ item.product.discounted_price }}</p>
+    <div class="page-header bg-section dark-section parallaxie">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="page-header-box">
+                        <h1 class="text-anime-style-3" data-cursor="-opaque">Checkout</h1>
+                        <nav class="wow fadeInUp">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'showcart' %}">Cart</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      {% endfor %}
-    <small>Term and Condition: Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, ullam saepe! Iure optio repellat dolor velit, minus rem. Facilis cumque neque numquam laboriosam, accusantium adipisci nisi nihil in et quis?</small>
-  </div>
-  <div class="col-sm-4 offset-sm-1">
-    <h4>Select Shipping Address</h4>
-    <hr>
-    <form action="{% url 'paymentdone' %}" method="post">
-      {% csrf_token %}
-      {% for address in add %}
-      <div class="card mb-2">
-        <div class="card-body">
-          <h5>{{ address.name }}</h5>
-          <p>{{ address.locality }}, {{ address.state }} - {{ address.zipcode }}</p>
-        </div>
-      </div>
-      <div class="form-check mt-2 mb-5">
-        <input class="form-check-input" type="radio" name="custid" id ="custadd{{ forloop.counter }}" value="{{ address.id }}">
-        <label class="form-check-label fw-bold" for="custadd{{ forloop.counter }}">
-          Address: {{ forloop.counter }}
-        </label>
-      </div>
-      {% endfor %}
-      <div class="text-end">
-        <button type="submit" href = "{% url 'payment_success' %}" class="btn btn-warning mt-3 px-5 fw-bold">Continue</button>
-      </div>
-    </form>
     </div>
-  </div>
+
+<div class="container" style="padding: 80px 0;">
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <form method="POST" action="{% url 'checkout' %}">
+    {% csrf_token %}
+    <div class="row">
+
+      <!-- Left Side: Shipping Details -->
+      <div class="col-sm-7">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h3 class="mb-4"><i class="fa fa-truck"></i> Shipping Details</h3>
+
+            <div class="row mb-3">
+              <div class="col-sm-6">
+                <label for="full_name" class="form-label">Full Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Enter your full name" required>
+              </div>
+              <div class="col-sm-6">
+                <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-sm-6">
+                <label for="phone" class="form-label">Phone Number <span class="text-danger">*</span></label>
+                <input type="tel" class="form-control" id="phone" name="phone" placeholder="03XX-XXXXXXX" required>
+              </div>
+              <div class="col-sm-6">
+                <label for="zipcode" class="form-label">Zip Code <span class="text-danger">*</span></label>
+                <input type="number" class="form-control" id="zipcode" name="zipcode" placeholder="e.g. 15100" min="10000" max="99999" required>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="address" class="form-label">Full Address <span class="text-danger">*</span></label>
+              <textarea class="form-control" id="address" name="address" rows="3" placeholder="House #, Street, Area, Near..." required></textarea>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-sm-6">
+                <label for="city" class="form-label">City <span class="text-danger">*</span></label>
+                <select class="form-control" id="city" name="city" required>
+                  <option value="" disabled selected>Select City</option>
+                  <option value="karachi">Karachi</option>
+                  <option value="islamabad">Islamabad</option>
+                  <option value="pindi">Rawalpindi</option>
+                  <option value="queta">Quetta</option>
+                  <option value="gilgit">Gilgit</option>
+                  <option value="hunza">Hunza</option>
+                  <option value="ghizer">Ghizer</option>
+                  <option value="yasin">Yasin</option>
+                </select>
+              </div>
+              <div class="col-sm-6">
+                <label for="locality" class="form-label">Locality / Area</label>
+                <input type="text" class="form-control" id="locality" name="locality" placeholder="e.g. Gulberg, F-8, Saddar">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="order_notes" class="form-label">Order Notes (Optional)</label>
+              <textarea class="form-control" id="order_notes" name="order_notes" rows="2" placeholder="Any special instructions for delivery..."></textarea>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Side: Order Summary -->
+      <div class="col-sm-5">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h3 class="mb-4"><i class="fa fa-shopping-bag"></i> Order Summary</h3>
+
+            {% for cart in carts %}
+            <div class="d-flex align-items-center mb-3">
+              <img src="{{ cart.product.product_image.url }}" alt="{{ cart.product.title }}" class="img-fluid img-thumbnail" style="width: 70px; height: 70px; object-fit: cover;">
+              <div style="margin-left: 15px; flex: 1;">
+                <h6 class="mb-0">{{ cart.product.title }}</h6>
+                <small class="text-muted">Qty: {{ cart.quantity }}</small>
+              </div>
+              <div>
+                <strong>Rs. {{ cart.product.discounted_price }}</strong>
+              </div>
+            </div>
+            {% endfor %}
+
+            <hr>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                Subtotal
+                <span>Rs. {{ amount }}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                Shipping
+                <span>Rs. {{ shipingamount }}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                <div>
+                  <strong>Total</strong>
+                </div>
+                <span style="font-size: 1.3rem;"><strong>Rs. {{ totalamount }}</strong></span>
+              </li>
+            </ul>
+
+            <hr>
+            <h5 class="mb-3">Payment Method</h5>
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="radio" name="payment_method" id="cod" value="COD" checked>
+              <label class="form-check-label" for="cod">
+                <i class="fa fa-money"></i> Cash on Delivery (COD)
+              </label>
+            </div>
+
+            <div class="d-grid mt-4">
+              <button type="submit" class="btn btn-primary btn-lg">Place Order</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center">
+          <a href="{% url 'showcart' %}" class="btn btn-outline-secondary"><i class="fa fa-arrow-left"></i> Back to Cart</a>
+        </div>
+      </div>
+
+    </div>
+  </form>
 </div>
+
 {% endblock %}

@@ -363,7 +363,76 @@ def remove_cart(request):
        
 def address(request):
     add = Customer.objects.filter(user=request.user)
-    return render(request, 'GYM/address.html', {'add': add})       
+    return render(request, 'GYM/address.html', {'add': add})
+
+def checkout(request):
+    if not request.user.is_authenticated:
+        return redirect('loginview')
+    user = request.user
+    cart = Cart.objects.filter(user=user)
+    if not cart:
+        return redirect('showcart')
+    
+    amount = 0.0
+    shipingamount = 70.0
+    for c in cart:
+        amount += c.quantity * c.product.discounted_price
+    totalamount = amount + shipingamount
+
+    if request.method == 'POST':
+        full_name = request.POST.get('full_name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        address_text = request.POST.get('address')
+        city = request.POST.get('city')
+        locality = request.POST.get('locality', '')
+        zipcode = request.POST.get('zipcode')
+        order_notes = request.POST.get('order_notes', '')
+
+        if not all([full_name, email, phone, address_text, city, zipcode]):
+            messages.error(request, 'Please fill all required fields.')
+            return render(request, 'GYM/checkout.html', {
+                'carts': cart, 'amount': amount,
+                'shipingamount': shipingamount, 'totalamount': totalamount
+            })
+
+        # Get or create customer
+        customer, created = Customer.objects.get_or_create(
+            user=user,
+            defaults={
+                'name': full_name,
+                'locality': locality if locality else city,
+                'zipcode': int(zipcode),
+                'state': city,
+            }
+        )
+        if not created:
+            customer.name = full_name
+            customer.locality = locality if locality else city
+            customer.zipcode = int(zipcode)
+            customer.state = city
+            customer.save()
+
+        # Create orders for each cart item
+        for c in cart:
+            OrderPlaced.objects.create(
+                user=user,
+                customer=customer,
+                product=c.product,
+                quantity=c.quantity,
+            )
+        # Clear the cart
+        cart.delete()
+        messages.success(request, 'Your order has been placed successfully!')
+        return redirect('order_success')
+
+    return render(request, 'GYM/checkout.html', {
+        'carts': cart, 'amount': amount,
+        'shipingamount': shipingamount, 'totalamount': totalamount
+    })
+
+def order_success(request):
+    return render(request, 'GYM/order_success.html')       
 
 def Protein(request):
     products = Product.objects.filter(category='protein')
@@ -462,3 +531,8 @@ def chanagepassword(request):
     else:
         form = PasswordChangeForm(request.user)
     return render(request, 'GYM/changepassword.html', {'form': form})
+
+def orders(request):
+    user = request.user
+    orders = OrderPlaced.objects.filter(user=user)
+    return render(request, 'GYM/orders.html', {'orders': orders})

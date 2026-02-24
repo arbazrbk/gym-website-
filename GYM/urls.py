@@ -30,4 +30,7 @@ urlpatterns = [
     path('protein/', views.Protein, name='protein'),
     path('shirt/', views.shirt, name='shirt'),
     path('shoes/', views.shoes, name='shoes'),
+    path('checkout/', views.checkout, name='checkout'),
+    path('order-success/', views.order_success, name='order_success'),
+    path('orders/', views.orders, name='orders'),
 ]
