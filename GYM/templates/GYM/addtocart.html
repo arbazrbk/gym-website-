@@ -36,9 +36,9 @@
        <p class="mb-2 text-muted small">Description: {{ cart.product.description }}</p>
        <div class="my-3">
         <label for="quantity">Quantity:</label>
-        <a class="minus-cart btn" href="{% url 'minus_cart' %}?prod_id={{ cart.product.id }}"><i class="fas fa-minus-square fa-lg"></i>-</a>
+        <a class="minus-cart btn" href="{% url 'minus_cart' %}?prod_id={{ cart.product.id }}">-</a>
           <span id="quantity">{{ cart.quantity }}</span>
-        <a class="plus-cart btn" href="{% url 'plus_cart' %}?prod_id={{ cart.product.id }}"><i class="fas fa-plus-square fa-lg"></i>+</a>
+        <a class="plus-cart btn" href="{% url 'plus_cart' %}?prod_id={{ cart.product.id }}">+</a>
        </div> 
        <div class="d-flex justify-content-between">
         <a href="{% url 'remove_cart' %}?prod_id={{ cart.product.id }}" class="btn btn-sm btn-secondary mr-3 remove-cart" >Remove item </a>
@@ -67,23 +67,10 @@
          <span><strong>Rs. {{ totalamount }}</strong></span>
        </li>
       </ul>
-      <div class="d-grid"><a href="{% url 'checkout' %}" class="btn btn-primary">Place Order</a></div>
+      <div class="d-grid"><a href="#" class="btn btn-primary">Place Order</a></div>
     </div>
    </div>
   </div>
   
- </div>
-</div>
-<div class="container">
- <div class="row">
-  <div class="col-sm-8">
-   <div class="card">
-    <div class="card-body">
-      <h5 class="mb-4">We accept</h5>
-      <img src="{% static 'images/our-pricing-cta-image.png' %}" alt="" class="img-fluid">
-    </div>
-  </div>
-  </div>
- </div>
-</div>
+
 {% endblock %}
