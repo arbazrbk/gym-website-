@@ -1,33 +1,373 @@
-{% extends 'GYM/base.html' %}
 {% load static %}
-{% block title %}Customer Registration{% endblock %}
-{% block content %}
-<div class="container">
- <div class="row my-3">
-  <div class="col-sm-6 offset-sm-3">
-   <h3>Customer Registration</h3>
-   <hr>
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title>Customer Registration - Gympro Fitness</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.png' %}">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/all.min.css' %}" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #080517;
+            --accent: #D5EB45;
+            --accent-hover: #c2d63e;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            font-family: 'DM Sans', sans-serif;
+            display: flex;
+            background: var(--primary);
+        }
 
-   <form action="" method="post" novalidate class="shadow p-5">
-    {% csrf_token %}
-      <div class="mb-3">
-         <label for="id_email" class="form-label">Email</label>
-         <input type="text" name="email" class="form-control" id="id_email" placeholder="Enter email" required>
-      </div>
-      {{ form.as_p }}
-    <div class="text-end">
-     <button type="submit" class="btn btn-danger">Submit</button>
+        /* Left Panel */
+        .reg-left {
+            width: 45%;
+            background: linear-gradient(135deg, #0a0620 0%, #1a1035 50%, #080517 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 50px;
+            position: relative;
+            overflow: hidden;
+        }
+        .reg-left::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 70%, rgba(213,235,69,0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .reg-left .brand-logo {
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+        }
+        .reg-left .brand-logo img {
+            height: 55px;
+        }
+        .reg-left h2 {
+            color: #fff;
+            font-size: 32px;
+            font-weight: 700;
+            text-align: center;
+            line-height: 1.3;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        .reg-left h2 span {
+            color: var(--accent);
+        }
+        .reg-left p {
+            color: rgba(255,255,255,0.6);
+            text-align: center;
+            font-size: 15px;
+            line-height: 1.6;
+            max-width: 350px;
+            position: relative;
+            z-index: 1;
+        }
+        .reg-left .features {
+            margin-top: 40px;
+            list-style: none;
+            padding: 0;
+            position: relative;
+            z-index: 1;
+        }
+        .reg-left .features li {
+            color: rgba(255,255,255,0.75);
+            font-size: 14px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .reg-left .features li i {
+            color: var(--accent);
+            font-size: 16px;
+            width: 30px;
+            height: 30px;
+            background: rgba(213,235,69,0.12);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* Right Panel */
+        .reg-right {
+            width: 55%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            background: #f5f6f8;
+        }
+        .reg-card {
+            width: 100%;
+            max-width: 480px;
+            background: #fff;
+            border-radius: 20px;
+            padding: 45px 40px;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.06);
+        }
+        .reg-card h3 {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 26px;
+            margin-bottom: 6px;
+        }
+        .reg-card .subtitle {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .form-group label {
+            display: block;
+            color: #444;
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 7px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .input-wrapper {
+            position: relative;
+        }
+        .input-wrapper i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
+            font-size: 15px;
+            pointer-events: none;
+        }
+        .input-wrapper input,
+        .input-wrapper select {
+            width: 100%;
+            padding: 12px 14px 12px 42px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            background: #fafafa;
+            color: #222;
+            font-size: 15px;
+            font-family: 'DM Sans', sans-serif;
+            transition: all 0.3s;
+        }
+        .input-wrapper input:focus,
+        .input-wrapper select:focus {
+            border-color: var(--accent);
+            background: #fff;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(213,235,69,0.15);
+        }
+        .input-wrapper input::placeholder {
+            color: #bbb;
+        }
+        .btn-submit {
+            width: 100%;
+            background: var(--accent);
+            color: var(--primary);
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 8px;
+            letter-spacing: 0.5px;
+        }
+        .btn-submit:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(213,235,69,0.3);
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 22px;
+            color: #888;
+            font-size: 14px;
+        }
+        .login-link a {
+            color: var(--primary);
+            font-weight: 700;
+            text-decoration: none;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 1px;
+        }
+        .login-link a:hover {
+            color: var(--accent-hover);
+        }
+        .alert {
+            border-radius: 10px;
+            font-size: 14px;
+            margin-top: 12px;
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 24px 0 20px;
+            gap: 12px;
+        }
+        .divider hr {
+            flex: 1;
+            border: none;
+            border-top: 1px solid #eee;
+        }
+        .divider span {
+            color: #bbb;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Mobile */
+        .mobile-logo {
+            display: none;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .mobile-logo img {
+            height: 40px;
+        }
+        @media (max-width: 991px) {
+            .reg-left { display: none; }
+            .reg-right { width: 100%; padding: 30px 20px; }
+            .mobile-logo { display: block; }
+            .reg-card { padding: 35px 28px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Left Branding Panel -->
+    <div class="reg-left">
+        <div class="brand-logo">
+            <a href="{% url 'home' %}"><img src="{% static 'images/logo.svg' %}" alt="GymPro"></a>
+        </div>
+        <h2>Start Your <span>Fitness Journey</span> Today</h2>
+        <p>Join thousands of members who have transformed their lives with GymPro's expert training programs.</p>
+        <ul class="features">
+            <li><i class="fa-solid fa-dumbbell"></i> Personalized workout plans</li>
+            <li><i class="fa-solid fa-chart-line"></i> Track your progress easily</li>
+            <li><i class="fa-solid fa-users"></i> Expert certified trainers</li>
+            <li><i class="fa-solid fa-cart-shopping"></i> Exclusive member discounts</li>
+            <li><i class="fa-solid fa-headset"></i> 24/7 support available</li>
+        </ul>
     </div>
-    <br>
-    <div class="text-center text-primary fw-bold"><small>Existing User ? <a href="#"
-       class="text-danger">Login Now</a> </small></div>
-    {% if form.non_field_errors %}
-    {% for error in form.non_field_errors %}
-    <p class="alert alert-danger my-3">{{error}}</p>
-    {% endfor %}
-    {% endif %}
-   </form>
-  </div>
- </div>
-</div>
-{% endblock %}
+
+    <!-- Right Form Panel -->
+    <div class="reg-right">
+        <div class="reg-card">
+            <div class="mobile-logo">
+                <a href="{% url 'home' %}"><img src="{% static 'images/logo.svg' %}" alt="GymPro"></a>
+            </div>
+            <h3>Create Account</h3>
+            <p class="subtitle">Fill in your details to get started</p>
+
+            {% if messages %}
+                {% for msg in messages %}
+                    <div class="alert alert-{{ msg.tags }} mb-3">{{ msg }}</div>
+                {% endfor %}
+            {% endif %}
+
+            <form action="" method="post" novalidate>
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="id_email">Email Address</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" name="email" id="id_email" placeholder="you@example.com" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_name">Full Name</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" name="name" id="id_name" placeholder="Your full name" maxlength="50" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_locality">Locality</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <input type="text" name="locality" id="id_locality" placeholder="Your area / locality" maxlength="100" required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="id_zipcode">Zipcode</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-hashtag"></i>
+                                <input type="number" name="zipcode" id="id_zipcode" placeholder="e.g. 44000" min="10000" max="99999" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="id_state">State / City</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-city"></i>
+                                <select name="state" id="id_state" required>
+                                    <option value="" disabled selected>Select</option>
+                                    <option value="karachi">Karachi</option>
+                                    <option value="islamabad">Islamabad</option>
+                                    <option value="pindi">Pindi</option>
+                                    <option value="queta">Queta</option>
+                                    <option value="gilgit">Gilgit</option>
+                                    <option value="hunza">Hunza</option>
+                                    <option value="ghizer">Ghizer</option>
+                                    <option value="yasin">Yasin</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_password">Password</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" name="password" id="id_password" placeholder="Create a password" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <i class="fa-solid fa-user-plus me-2"></i>Create Account
+                </button>
+
+                {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        <p class="alert alert-danger my-3">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            </form>
+
+            <div class="divider"><hr><span>or</span><hr></div>
+
+            <div class="login-link">
+                Already have an account? <a href="{% url 'loginview' %}">Login Now</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

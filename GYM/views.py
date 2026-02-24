@@ -208,9 +208,12 @@ class customer_registration(View):
         form = CustomerRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
+            print("Customer registered successfully!")
             messages.success(request, 'Customer registered successfully!')
-            return render(request, 'GYM/customerregistration.html', {'form': form})
-        return render(request, 'GYM/customerregistration.html', {'form': form})
+            return redirect('loginview')
+        else:
+           print("Form is not valid:", form.errors)
+       
 
 def product_detail(request, pk):
     product = Product.objects.get(pk=pk)
