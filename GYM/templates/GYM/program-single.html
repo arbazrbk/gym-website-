@@ -1,4 +1,5 @@
 {% extends "GYM/base.html" %}
+{% load static %}
 
 {% block title %}Program Details - Gympro Fitness{% endblock %}
 
@@ -11,7 +12,7 @@
                         <h1 class="text-anime-style-3" data-cursor="-opaque">Strength Training</h1>
                         <nav class="wow fadeInUp">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html">home</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'home' %}">home</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">Program Details</li>
                             </ol>
                         </nav>
@@ -27,7 +28,7 @@
                     <div class="program-single-content">
                         <div class="program-image wow fadeInUp">
                             <figure class="image-anime reveal">
-                                <img src="images/program-image-1.jpg" alt="">
+                                <img src="{% static 'images/program-image-1.jpg' %}" alt="">
                             </figure>
                         </div>
                         <div class="program-entry">

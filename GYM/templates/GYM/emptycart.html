@@ -1,9 +1,36 @@
 {% extends 'GYM/base.html' %}
-{% block title %}Empty Cart{% endblock title %}
+{% load static %}
+{% block title %}Empty Cart - Gympro Fitness{% endblock title %}
+
 {% block content %}
-<div class="container my-5 text-center">
-    <h2>Your cart is empty!</h2>
-    <p>Looks like you haven't added anything to your cart yet.</p>
-    <a href="{% url 'home' %}" class="btn btn-primary mt-3">Continue Shopping</a>
-</div>
+    <div class="page-header bg-section dark-section parallaxie">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="page-header-box">
+                        <h1 class="text-anime-style-3" data-cursor="-opaque">Shopping Cart</h1>
+                        <nav class="wow fadeInUp">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Cart</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="padding: 100px 0;">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 text-center">
+                <div class="wow fadeInUp">
+                    <img src="{% static 'images/404-error-img.png' %}" alt="Empty Cart" style="max-width: 250px; margin-bottom: 30px; opacity: 0.7;">
+                    <h2 style="color: var(--white-color); margin-bottom: 15px;">Your Cart is Empty!</h2>
+                    <p style="color: var(--text-color); margin-bottom: 30px;">Looks like you haven't added anything to your cart yet. Browse our products and start shopping.</p>
+                    <a href="{% url 'home' %}" class="btn-default btn-highlighted">Continue Shopping</a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

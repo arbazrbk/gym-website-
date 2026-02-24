@@ -1,13 +1,13 @@
 from urllib import request
 from django.shortcuts import render
 from .models import Trainer, Customer, Product, Cart, OrderPlaced
-from .foams import CustomerRegistrationForm,TrainerRegistrationForm, ProductForm, FeedbackForm
+from .foams import CustomerRegistrationForm,TrainerRegistrationForm, ProductForm, FeedbackForm,LoginForm,PasswordChangeForm
 from django.contrib import messages
 from datetime import datetime, timedelta
 from django.views import View
 from django.shortcuts import redirect
 from django.db.models import Q
-
+from django.contrib.auth import logout, authenticate, login
 
 def home(request):
     return render(request, 'GYM/home.html')  
@@ -132,8 +132,6 @@ def trainer_details(request):
     trainer_id = request.GET.get('trainer_id')
     return render(request, 'GYM/trainer-details.html', {'trainer_id': trainer_id, 'user': user} )
 
-def pricing(request):
-    return render(request, 'GYM/pricing.html')
 
 def testimonials(request):
     return render(request, 'GYM/testimonials.html')
@@ -198,11 +196,11 @@ def showcart(request):
                 tempamount = (c.quantity * c.product.discounted_price)
                 amount += tempamount
             totalamount = amount + shipingamount
-            return render(request,'rbk/addtocart.html', {'carts': cart, 'totalamount': totalamount , 'amount': amount,'shipingamount': shipingamount})
+            return render(request,'GYM/addtocart.html', {'carts': cart, 'totalamount': totalamount , 'amount': amount,'shipingamount': shipingamount})
         else:
-            return render(request,'rbk/emptycart.html')
+            return render(request,'GYM/emptycart.html')
     else :
-        return render(request,'rbk/emptycart.html')
+        return render(request,'GYM/emptycart.html')
 
 
 def addtocart(request): 
@@ -286,3 +284,78 @@ def remove_cart(request):
 def address(request):
     add = Customer.objects.filter(user=request.user)
     return render(request, 'GYM/address.html', {'add': add})       
+
+def Protein(request):
+    user = request.user
+    protein = Product.objects.filter(category='protein')
+    return render(request, 'GYM/protein.html', {'protein': protein})
+
+class customer_registration(View):
+    def get(self, request):
+        form = CustomerRegistrationForm()
+        return render(request, 'GYM/customerregistration.html', {'form': form})
+    
+    def post(self, request):
+        form = CustomerRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Customer registered successfully! Please log in.')
+            return redirect('loginview')
+        return render(request, 'GYM/customerregistration.html', {'form': form})
+    
+class trainer_registration(View):
+    def get(self, request):
+        form = TrainerRegistrationForm()
+        return render(request, 'GYM/trainerregistration.html', {'form': form})
+    
+    def post(self, request):
+        form = TrainerRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Trainer registered successfully! Please log in.')
+            return redirect('loginview')
+        return render(request, 'GYM/trainerregistration.html', {'form': form})
+    
+def loginview(request):
+    # Agar user already logged in hai to direct home par bhejo
+    if request.user.is_authenticated:
+        return redirect('home')
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        if not username or not password:
+            messages.error(request, 'Please enter both username and password.')
+        else:
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.success(request, 'Logged in successfully.')
+                return redirect('home')
+            else:
+                messages.error(request, 'Invalid username or password.')
+
+    # GET request ya failed login ke case mein simple template render karo
+    return render(request, 'GYM/login.html') 
+        
+def logout_view(request):
+    if request.user.is_authenticated:
+       logout(request)
+       return redirect('home') 
+    else:
+        messages.error(request, "You are not logged in.")
+        return redirect('loginview')       
+    
+def chanagepassword(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('home')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'GYM/changepassword.html', {'form': form})

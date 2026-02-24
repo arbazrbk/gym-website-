@@ -1,4 +1,5 @@
 {% extends "GYM/base.html" %}
+{% load static %}
 
 {% block title %}Trainer Details - Gympro Fitness{% endblock %}
 
@@ -11,7 +12,7 @@
                         <h1 class="text-anime-style-3" data-cursor="-opaque">Albert Flores</h1>
                         <nav class="wow fadeInUp">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html">home</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'home' %}">home</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">Trainer Details</li>
                             </ol>
                         </nav>
@@ -27,7 +28,7 @@
                 <div class="col-lg-5">
                     <div class="trainer-single-image wow fadeInUp">
                         <figure class="image-anime">
-                            <img src="images/trainer-1.jpg" alt="">
+                            <img src="{% static 'images/trainer-1.jpg' %}" alt="">
                         </figure>
                     </div>
                 </div>

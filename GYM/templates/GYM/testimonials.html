@@ -1,4 +1,5 @@
 {% extends "GYM/base.html" %}
+{% load static %}
 
 {% block title %}Testimonials - Gympro Fitness{% endblock %}
 
@@ -11,7 +12,7 @@
                         <h1 class="text-anime-style-3" data-cursor="-opaque">Testimonials</h1>
                         <nav class="wow fadeInUp">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html">home</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'home' %}">home</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">Testimonials</li>
                             </ol>
                         </nav>
@@ -30,12 +31,12 @@
                             <div class="testimonial-item-rating">
                                 <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
                             </div>
-                            <div class="testimonial-item-quote"><img src="images/testimonial-quote.svg" alt=""></div>
+                            <div class="testimonial-item-quote"><img src="{% static 'images/testimonial-quote.svg' %}" alt=""></div>
                         </div>
                         <div class="testimonial-item-body">
                             <p>“ GymPro stands out because of its professional approach to fitness. The personal training sessions are well-planned and goal-oriented. ”</p>
                             <div class="testimonial-item-author">
-                                <div class="testimonial-author-image"><img src="images/author-1.jpg" alt=""></div>
+                                <div class="testimonial-author-image"><img src="{% static 'images/author-1.jpg' %}" alt=""></div>
                                 <div class="testimonial-author-content">
                                     <h2>Courtney Henry</h2>
                                     <p>Premium Membership</p>

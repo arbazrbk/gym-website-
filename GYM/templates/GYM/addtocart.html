@@ -1,10 +1,27 @@
 {% extends 'GYM/base.html' %}
 {% load static %}
-{% block title %}Cart{% endblock title %}
+{% block title %}Cart - Gympro Fitness{% endblock title %}
 {% block content %}
-<div class="container my-5">
+    <div class="page-header bg-section dark-section parallaxie">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="page-header-box">
+                        <h1 class="text-anime-style-3" data-cursor="-opaque">Shopping Cart</h1>
+                        <nav class="wow fadeInUp">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Cart</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="container" style="padding: 80px 0;">
  <div class="row">
-  <h1 class="text-center mb-5">Shopping Cart</h1>
   <div class="col-sm-8">
   <div class="card">
    <div class="card-body">
@@ -19,12 +36,12 @@
        <p class="mb-2 text-muted small">Description: {{ cart.product.description }}</p>
        <div class="my-3">
         <label for="quantity">Quantity:</label>
-        <a class="minus-cart btn" href="{% url 'minuscart' %}?prod_id={{ cart.product.id }}"><i class="fas fa-minus-square fa-lg"></i>-</a>
+        <a class="minus-cart btn" href="{% url 'minus_cart' %}?prod_id={{ cart.product.id }}"><i class="fas fa-minus-square fa-lg"></i>-</a>
           <span id="quantity">{{ cart.quantity }}</span>
-        <a class="plus-cart btn" href="{% url 'pluscart' %}?prod_id={{ cart.product.id }}"><i class="fas fa-plus-square fa-lg"></i>+</a>
+        <a class="plus-cart btn" href="{% url 'plus_cart' %}?prod_id={{ cart.product.id }}"><i class="fas fa-plus-square fa-lg"></i>+</a>
        </div> 
        <div class="d-flex justify-content-between">
-        <a href="{% url 'removecart' %}?prod_id={{ cart.product.id }}" class="btn btn-sm btn-secondary mr-3 remove-cart" >Remove item </a>
+        <a href="{% url 'remove_cart' %}?prod_id={{ cart.product.id }}" class="btn btn-sm btn-secondary mr-3 remove-cart" >Remove item </a>
         <p class="mb-0"><span><strong>Rs. {{ cart.product.discounted_price }}</strong></span></p>
        </div>
       </div>
@@ -32,25 +49,6 @@
     </div>
     {% endfor %}
     <hr class="text-muted">
-    <div class="row my-5">
-     <div class="col-sm-3 text-center align-self-center"> <img src="{% static 'app/images/product/2.jpg'%}" alt="" srcset="" class="img-fluid img-thumbnail shadow-sm" height="150" width="150"></div>
-     <div class="col-sm-9"> 
-      <div>
-       <h5>Product 2</h5>
-       <p class="mb-2 text-muted small">Description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio corrupti repudiandae quas tenetur? Vel harum iste impedit ad cupiditate sint soluta consequuntur sed, enim, eligendi labore molestiae! Mollitia, ad exercitationem!</p>
-       <div class="my-3">
-        <label for="quantity">Quantity:</label>
-        <a class="minus-cart btn" pid ="{{cart.product.id}}"><i class="fas fa-minus-square fa-lg"></i></a>
-          <span id="quantity">2</span>
-        <a class="plus-cart btn" pid ="{{cart.product.id}}"><i class="fas fa-plus-square fa-lg"></i></a>
-       </div> 
-       <div class="d-flex justify-content-between">
-        <a href="#" class="btn btn-sm btn-secondary mr-3 remove-cart" pid ="{{cart.product.id}}">Remove item </a>        
-        <p class="mb-0"><span><strong>Rs. 320.00</strong></span></p>
-       </div>
-      </div>
-     </div>
-    </div>
    </div>
    </div>
   </div>
@@ -82,7 +80,7 @@
    <div class="card">
     <div class="card-body">
       <h5 class="mb-4">We accept</h5>
-      <img src="{% static 'rbk/images/payment.png' %}" alt="" class="img-fluid">
+      <img src="{% static 'images/our-pricing-cta-image.png' %}" alt="" class="img-fluid">
     </div>
   </div>
   </div>

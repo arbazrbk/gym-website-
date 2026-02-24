@@ -1,11 +1,12 @@
 {% extends "GYM/base.html" %}
+{% load static %}
 {% block content %}
     <div class="error-page">
         <div class="container">
-            <div class="error-page-image"><img src="images/404-error-img.png" alt=""></div>
+            <div class="error-page-image"><img src="{% static 'images/404-error-img.png' %}" alt=""></div>
             <div class="error-page-content">
                 <h2>Oops! page not found</h2>
-                <a class="btn-default" href="index.html">Back to Homepage</a>
+                <a class="btn-default" href="{% url 'home' %}">Back to Homepage</a>
             </div>
         </div>
     </div>
