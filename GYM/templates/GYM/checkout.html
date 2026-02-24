@@ -30,9 +30,9 @@
             <div class="row mb-4">
                 <div class="col-lg-12">
                     {% for message in messages %}
-                    <div class="alert alert-dismissible fade show" role="alert" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: var(--white-color); border-radius: 10px;">
+                    <div class="alert alert-dismissible fade show" role="alert" style="background: #f0f4e8; border: 1px solid #d5eb45; color: #222; border-radius: 10px;">
                         {{ message }}
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                     {% endfor %}
                 </div>
@@ -45,17 +45,17 @@
                     <div class="wow fadeInUp" style="display: flex; justify-content: center; align-items: center; gap: 0;">
                         <div style="text-align: center;">
                             <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--accent-color); color: var(--primary-color); display: inline-flex; align-items: center; justify-content: center; font-weight: 700;">1</div>
-                            <p style="color: var(--accent-color); font-size: 12px; margin-top: 5px; font-weight: 600;">Cart</p>
+                            <p style="color: var(--primary-color); font-size: 12px; margin-top: 5px; font-weight: 600;">Cart</p>
                         </div>
                         <div style="width: 80px; height: 2px; background: var(--accent-color); margin-bottom: 20px;"></div>
                         <div style="text-align: center;">
                             <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--accent-color); color: var(--primary-color); display: inline-flex; align-items: center; justify-content: center; font-weight: 700;">2</div>
-                            <p style="color: var(--accent-color); font-size: 12px; margin-top: 5px; font-weight: 600;">Checkout</p>
+                            <p style="color: var(--primary-color); font-size: 12px; margin-top: 5px; font-weight: 600;">Checkout</p>
                         </div>
-                        <div style="width: 80px; height: 2px; background: rgba(255,255,255,0.2); margin-bottom: 20px;"></div>
+                        <div style="width: 80px; height: 2px; background: #ddd; margin-bottom: 20px;"></div>
                         <div style="text-align: center;">
-                            <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: var(--text-color); display: inline-flex; align-items: center; justify-content: center; font-weight: 700;">3</div>
-                            <p style="color: var(--text-color); font-size: 12px; margin-top: 5px;">Confirm</p>
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background: #f0f0f0; border: 1px solid #ddd; color: #999; display: inline-flex; align-items: center; justify-content: center; font-weight: 700;">3</div>
+                            <p style="color: #999; font-size: 12px; margin-top: 5px;">Confirm</p>
                         </div>
                     </div>
                 </div>
@@ -67,128 +67,128 @@
 
                     <!-- Left Side: Shipping Details -->
                     <div class="col-lg-7 mb-4">
-                        <div class="wow fadeInUp" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 30px;">
-                            <h3 style="color: var(--white-color); margin-bottom: 25px;">
+                        <div class="wow fadeInUp" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 15px; padding: 30px; box-shadow: 0 2px 15px rgba(0,0,0,0.06);">
+                            <h3 style="color: var(--primary-color); margin-bottom: 25px;">
                                 <i class="fas fa-truck" style="color: var(--accent-color); margin-right: 10px;"></i> Shipping Details
                             </h3>
 
                             <!-- Full Name & Email -->
                             <div class="row mb-3">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="full_name" style="color: var(--white-color); font-size: 14px; font-weight: 600; margin-bottom: 8px; display: block;">Full Name <span style="color: var(--accent-color);">*</span></label>
+                                    <label for="full_name" style="color: var(--primary-color); font-size: 14px; font-weight: 600; margin-bottom: 8px; display: block;">Full Name <span style="color: #dc3545;">*</span></label>
                                     <input type="text" id="full_name" name="full_name" placeholder="Enter your full name" required
-                                        style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: var(--white-color); font-size: 14px; outline: none; transition: border 0.3s;">
+                                        style="width: 100%; padding: 12px 16px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 10px; color: #222; font-size: 14px; outline: none; transition: border 0.3s;">
                                 </div>
                                 <div class="col-sm-6">
-                                    <label for="email" style="color: var(--white-color); font-size: 14px; font-weight: 600; margin-bottom: 8px; display: block;">Email <span style="color: var(--accent-color);">*</span></label>
+                                    <label for="email" style="color: var(--primary-color); font-size: 14px; font-weight: 600; margin-bottom: 8px; display: block;">Email <span style="color: #dc3545;">*</span></label>
                                     <input type="email" id="email" name="email" placeholder="Enter your email" required
-                                        style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: var(--white-color); font-size: 14px; outline: none; transition: border 0.3s;">
+                                        style="width: 100%; padding: 12px 16px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 10px; color: #222; font-size: 14px; outline: none; transition: border 0.3s;">
                                 </div>
                             </div>
 
                             <!-- Phone & Zipcode -->
                             <div class="row mb-3">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="phone" style="color: var(--white-color); font-size: 14px; font-weight: 600; margin-bottom: 8px; display: block;">Phone Number <span style="color: var(--accent-color);">*</span></label>
+                                    <label for="phone" style="color: var(--primary-color); font-size: 14px; font-weight: 600; margin-bottom: 8px; display: block;">Phone Number <span style="color: #dc3545;">*</span></label>
                                     <input type="tel" id="phone" name="phone" placeholder="03XX-XXXXXXX" required
-                                        style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: var(--white-color); font-size: 14px; outline: none; transition: border 0.3s;">
+                                        style="width: 100%; padding: 12px 16px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 10px; color: #222; font-size: 14px; outline: none; transition: border 0.3s;">
                                 </div>
                                 <div class="col-sm-6">
-                                    <label for="zipcode" style="color: var(--white-color); font-size: 14px; font-weight: 600; margin-bottom: 8px; display: block;">Zip Code <span style="color: var(--accent-color);">*</span></label>
+                                    <label for="zipcode" style="color: var(--primary-color); font-size: 14px; font-weight: 600; margin-bottom: 8px; display: block;">Zip Code <span style="color: #dc3545;">*</span></label>
                                     <input type="number" id="zipcode" name="zipcode" placeholder="e.g. 15100" min="10000" max="99999" required
-                                        style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: var(--white-color); font-size: 14px; outline: none; transition: border 0.3s;">
+                                        style="width: 100%; padding: 12px 16px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 10px; color: #222; font-size: 14px; outline: none; transition: border 0.3s;">
                                 </div>
                             </div>
 
                             <!-- Full Address -->
                             <div class="mb-3">
-                                <label for="address" style="color: var(--white-color); font-size: 14px; font-weight: 600; margin-bottom: 8px; display: block;">Full Address <span style="color: var(--accent-color);">*</span></label>
+                                <label for="address" style="color: var(--primary-color); font-size: 14px; font-weight: 600; margin-bottom: 8px; display: block;">Full Address <span style="color: #dc3545;">*</span></label>
                                 <textarea id="address" name="address" rows="3" placeholder="House #, Street, Area, Near..." required
-                                    style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: var(--white-color); font-size: 14px; outline: none; resize: vertical; transition: border 0.3s;"></textarea>
+                                    style="width: 100%; padding: 12px 16px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 10px; color: #222; font-size: 14px; outline: none; resize: vertical; transition: border 0.3s;"></textarea>
                             </div>
 
                             <!-- City & Locality -->
                             <div class="row mb-3">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="city" style="color: var(--white-color); font-size: 14px; font-weight: 600; margin-bottom: 8px; display: block;">City <span style="color: var(--accent-color);">*</span></label>
+                                    <label for="city" style="color: var(--primary-color); font-size: 14px; font-weight: 600; margin-bottom: 8px; display: block;">City <span style="color: #dc3545;">*</span></label>
                                     <select id="city" name="city" required
-                                        style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: var(--white-color); font-size: 14px; outline: none; transition: border 0.3s; appearance: auto;">
-                                        <option value="" disabled selected style="color: #888;">Select City</option>
-                                        <option value="karachi" style="background: #222; color: #fff;">Karachi</option>
-                                        <option value="islamabad" style="background: #222; color: #fff;">Islamabad</option>
-                                        <option value="pindi" style="background: #222; color: #fff;">Rawalpindi</option>
-                                        <option value="queta" style="background: #222; color: #fff;">Quetta</option>
-                                        <option value="gilgit" style="background: #222; color: #fff;">Gilgit</option>
-                                        <option value="hunza" style="background: #222; color: #fff;">Hunza</option>
-                                        <option value="ghizer" style="background: #222; color: #fff;">Ghizer</option>
-                                        <option value="yasin" style="background: #222; color: #fff;">Yasin</option>
+                                        style="width: 100%; padding: 12px 16px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 10px; color: #222; font-size: 14px; outline: none; transition: border 0.3s; appearance: auto;">
+                                        <option value="" disabled selected>Select City</option>
+                                        <option value="karachi">Karachi</option>
+                                        <option value="islamabad">Islamabad</option>
+                                        <option value="pindi">Rawalpindi</option>
+                                        <option value="queta">Quetta</option>
+                                        <option value="gilgit">Gilgit</option>
+                                        <option value="hunza">Hunza</option>
+                                        <option value="ghizer">Ghizer</option>
+                                        <option value="yasin">Yasin</option>
                                     </select>
                                 </div>
                                 <div class="col-sm-6">
-                                    <label for="locality" style="color: var(--white-color); font-size: 14px; font-weight: 600; margin-bottom: 8px; display: block;">Locality / Area</label>
+                                    <label for="locality" style="color: var(--primary-color); font-size: 14px; font-weight: 600; margin-bottom: 8px; display: block;">Locality / Area</label>
                                     <input type="text" id="locality" name="locality" placeholder="e.g. Gulberg, F-8, Saddar"
-                                        style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: var(--white-color); font-size: 14px; outline: none; transition: border 0.3s;">
+                                        style="width: 100%; padding: 12px 16px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 10px; color: #222; font-size: 14px; outline: none; transition: border 0.3s;">
                                 </div>
                             </div>
 
                             <!-- Order Notes -->
                             <div class="mb-0">
-                                <label for="order_notes" style="color: var(--white-color); font-size: 14px; font-weight: 600; margin-bottom: 8px; display: block;">Order Notes <span style="color: var(--text-color); font-weight: 400;">(Optional)</span></label>
+                                <label for="order_notes" style="color: var(--primary-color); font-size: 14px; font-weight: 600; margin-bottom: 8px; display: block;">Order Notes <span style="color: #888; font-weight: 400;">(Optional)</span></label>
                                 <textarea id="order_notes" name="order_notes" rows="2" placeholder="Any special instructions for delivery..."
-                                    style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: var(--white-color); font-size: 14px; outline: none; resize: vertical; transition: border 0.3s;"></textarea>
+                                    style="width: 100%; padding: 12px 16px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 10px; color: #222; font-size: 14px; outline: none; resize: vertical; transition: border 0.3s;"></textarea>
                             </div>
                         </div>
                     </div>
 
                     <!-- Right Side: Order Summary -->
                     <div class="col-lg-5">
-                        <div class="wow fadeInUp" data-wow-delay="0.2s" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 30px; position: sticky; top: 100px;">
-                            <h3 style="color: var(--white-color); margin-bottom: 25px;">
+                        <div class="wow fadeInUp" data-wow-delay="0.2s" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 15px; padding: 30px; position: sticky; top: 100px; box-shadow: 0 2px 15px rgba(0,0,0,0.06);">
+                            <h3 style="color: var(--primary-color); margin-bottom: 25px;">
                                 <i class="fas fa-shopping-bag" style="color: var(--accent-color); margin-right: 10px;"></i> Order Summary
                             </h3>
 
                             <!-- Cart Items -->
                             {% for cart in carts %}
-                            <div style="display: flex; align-items: center; margin-bottom: 15px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px;">
-                                <div style="background: rgba(0,0,0,0.2); border-radius: 8px; padding: 6px; margin-right: 12px;">
+                            <div style="display: flex; align-items: center; margin-bottom: 15px; background: #f9faf5; border: 1px solid #eee; border-radius: 10px; padding: 12px;">
+                                <div style="background: #fff; border: 1px solid #eee; border-radius: 8px; padding: 6px; margin-right: 12px;">
                                     <img src="{{ cart.product.product_image.url }}" alt="{{ cart.product.title }}" style="width: 55px; height: 55px; object-fit: contain; border-radius: 6px;">
                                 </div>
                                 <div style="flex: 1;">
-                                    <h6 style="color: var(--white-color); margin: 0 0 3px; font-size: 14px;">{{ cart.product.title }}</h6>
-                                    <small style="color: var(--text-color);">Qty: {{ cart.quantity }}</small>
+                                    <h6 style="color: var(--primary-color); margin: 0 0 3px; font-size: 14px;">{{ cart.product.title }}</h6>
+                                    <small style="color: #888;">Qty: {{ cart.quantity }}</small>
                                 </div>
                                 <div>
-                                    <span style="color: var(--accent-color); font-weight: 700; font-size: 16px;">Rs. {{ cart.product.discounted_price }}</span>
+                                    <span style="color: var(--primary-color); font-weight: 700; font-size: 16px;">Rs. {{ cart.product.discounted_price }}</span>
                                 </div>
                             </div>
                             {% endfor %}
 
                             <!-- Price Breakdown -->
-                            <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; margin-top: 10px;">
+                            <div style="border-top: 1px solid #eee; padding-top: 15px; margin-top: 10px;">
                                 <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                                    <span style="color: var(--text-color); font-size: 14px;">Subtotal</span>
-                                    <span style="color: var(--white-color); font-weight: 600;">Rs. {{ amount }}</span>
+                                    <span style="color: #666; font-size: 14px;">Subtotal</span>
+                                    <span style="color: var(--primary-color); font-weight: 600;">Rs. {{ amount }}</span>
                                 </div>
                                 <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                                    <span style="color: var(--text-color); font-size: 14px;">Shipping</span>
-                                    <span style="color: var(--white-color); font-weight: 600;">Rs. {{ shipingamount }}</span>
+                                    <span style="color: #666; font-size: 14px;">Shipping</span>
+                                    <span style="color: var(--primary-color); font-weight: 600;">Rs. {{ shipingamount }}</span>
                                 </div>
-                                <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px; display: flex; justify-content: space-between; align-items: center;">
-                                    <span style="color: var(--white-color); font-size: 18px; font-weight: 700;">Total</span>
-                                    <span style="color: var(--accent-color); font-size: 26px; font-weight: 700;">Rs. {{ totalamount }}</span>
+                                <div style="border-top: 1px solid #eee; padding-top: 12px; display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="color: var(--primary-color); font-size: 18px; font-weight: 700;">Total</span>
+                                    <span style="color: var(--primary-color); font-size: 26px; font-weight: 700;">Rs. {{ totalamount }}</span>
                                 </div>
                             </div>
 
                             <!-- Payment Method -->
-                            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 15px; margin-top: 20px;">
-                                <h6 style="color: var(--white-color); margin-bottom: 12px;">
+                            <div style="background: #f9faf5; border: 1px solid #e8edc9; border-radius: 10px; padding: 15px; margin-top: 20px;">
+                                <h6 style="color: var(--primary-color); margin-bottom: 12px;">
                                     <i class="fas fa-credit-card" style="color: var(--accent-color); margin-right: 6px;"></i> Payment Method
                                 </h6>
-                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 10px; background: rgba(255,255,255,0.05); border: 1px solid var(--accent-color); border-radius: 8px;">
+                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 10px; background: #fff; border: 2px solid var(--accent-color); border-radius: 8px;">
                                     <input type="radio" name="payment_method" value="COD" checked style="accent-color: var(--accent-color); width: 18px; height: 18px;">
                                     <div>
-                                        <span style="color: var(--white-color); font-weight: 600;"><i class="fas fa-money-bill-wave" style="color: var(--accent-color); margin-right: 5px;"></i> Cash on Delivery</span>
-                                        <small style="display: block; color: var(--text-color); font-size: 12px;">Pay when your order arrives</small>
+                                        <span style="color: var(--primary-color); font-weight: 600;"><i class="fas fa-money-bill-wave" style="color: var(--accent-color); margin-right: 5px;"></i> Cash on Delivery</span>
+                                        <small style="display: block; color: #888; font-size: 12px;">Pay when your order arrives</small>
                                     </div>
                                 </label>
                             </div>
@@ -202,7 +202,7 @@
 
                             <!-- Secure Note -->
                             <div style="text-align: center; margin-top: 15px;">
-                                <p style="color: var(--text-color); font-size: 12px; margin: 0;">
+                                <p style="color: #888; font-size: 12px; margin: 0;">
                                     <i class="fas fa-shield-alt" style="color: var(--accent-color); margin-right: 5px;"></i>
                                     Secure Checkout | Your data is safe with us
                                 </p>
@@ -210,7 +210,7 @@
 
                             <!-- Back to Cart -->
                             <div style="text-align: center; margin-top: 15px;">
-                                <a href="{% url 'showcart' %}" style="color: var(--accent-color); text-decoration: none; font-size: 14px; display: inline-flex; align-items: center; gap: 6px;">
+                                <a href="{% url 'showcart' %}" style="color: var(--primary-color); text-decoration: none; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; font-weight: 600;">
                                     <i class="fas fa-arrow-left"></i> Back to Cart
                                 </a>
                             </div>

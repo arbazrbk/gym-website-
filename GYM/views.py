@@ -1,7 +1,7 @@
 from urllib import request
 from django.shortcuts import render
-from .models import Trainer, Customer, Product, Cart, OrderPlaced
-from .foams import CustomerRegistrationForm,TrainerRegistrationForm, ProductForm, FeedbackForm,LoginForm,PasswordChangeForm
+from .models import Customer, Product, Cart, OrderPlaced, Feedback
+from .foams import CustomerRegistrationForm, ProductForm, FeedbackForm,LoginForm,PasswordChangeForm
 from django.contrib import messages
 from datetime import datetime, timedelta
 from django.views import View
@@ -18,33 +18,6 @@ def about(request):
 
 def programs(request):
     return render(request, 'GYM/programs.html')
-
-def program_single(request):
-    user = request.user
-    program_id = request.GET.get('program_id')
-    weight  = request.GET.get('weight')
-    height = request.GET.get('height')
-    bmi = 0.0
-    if weight and height:
-        try:
-            weight = float(weight)
-            height = float(height) / 100  
-            bmi = weight / (height ** 2)
-            if bmi < 18.5:
-                messages.info(request, 'Your BMI is {:.2f}. You are underweight.'.format(bmi))
-            elif 18.5 <= bmi < 25:
-                messages.info(request, 'Your BMI is {:.2f}. You have a normal weight.'.format(bmi))
-            elif 25 <= bmi < 30:
-                messages.info(request, 'Your BMI is {:.2f}. You are overweight.'.format(bmi))
-            else:
-                messages.info(request, 'Your BMI is {:.2f}. You are obese.'.format(bmi))            
-        except ValueError:
-            messages.error(request, 'Invalid input for weight or height. Please enter numeric values.')
-    else:
-        messages.error(request, 'Please provide both weight and height to calculate BMI.')
-    
-    return render(request, 'GYM/programs.html', {'program_id': program_id, 'user': user, 'bmi': bmi} )
-
 
 def weight_loss(request):
     # GET request: sirf form dikhao
@@ -206,7 +179,8 @@ def trainer_details(request):
 
 
 def testimonials(request):
-    return render(request, 'GYM/testimonials.html')
+    review = Feedback.objects.all()
+    return render(request, 'GYM/testimonials.html', {'review': review})
 
 def faqs(request):
     return render(request, 'GYM/faqs.html')
@@ -237,20 +211,6 @@ class customer_registration(View):
             messages.success(request, 'Customer registered successfully!')
             return render(request, 'GYM/customerregistration.html', {'form': form})
         return render(request, 'GYM/customerregistration.html', {'form': form})
-
-class trainer_registration(View):
-    def get(self, request):
-        form = TrainerRegistrationForm()
-        return render(request, 'GYM/trainerregistration.html', {'form': form})
-    
-    def post(self, request):
-        form = TrainerRegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Trainer registered successfully!')
-            return render(request, 'GYM/trainerregistration.html', {'form': form})
-        return render(request, 'GYM/trainerregistration.html', {'form': form})
-    
 
 def product_detail(request, pk):
     product = Product.objects.get(pk=pk)
@@ -474,20 +434,6 @@ class customer_registration(View):
             messages.success(request, 'Customer registered successfully! Please log in.')
             return redirect('loginview')
         return render(request, 'GYM/customerregistration.html', {'form': form})
-    
-class trainer_registration(View):
-    def get(self, request):
-        form = TrainerRegistrationForm()
-        return render(request, 'GYM/trainerregistration.html', {'form': form})
-    
-    def post(self, request):
-        form = TrainerRegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Trainer registered successfully! Please log in.')
-            return redirect('loginview')
-        return render(request, 'GYM/trainerregistration.html', {'form': form})
-    
 def loginview(request):
     # Agar user already logged in hai to direct home par bhejo
     if request.user.is_authenticated:

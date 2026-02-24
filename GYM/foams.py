@@ -1,18 +1,14 @@
 from django import forms
-from .models import Customer, Product,Feedback, Trainer
+from .models import Customer, Product,Feedback
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, PasswordResetForm
 
 class CustomerRegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     class Meta:
         model = Customer
-        fields = ['name', 'locality', 'zipcode', 'state', 'trainer']
+        fields = ['name', 'locality', 'zipcode', 'state']
 
-class TrainerRegistrationForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput)
-    class Meta:
-        model = Trainer
-        fields = ['name', 'specialization', 'bio', 'experience_years'] 
+
                
 class ProductForm(forms.ModelForm):
     class Meta:
@@ -22,7 +18,7 @@ class ProductForm(forms.ModelForm):
 class FeedbackForm(forms.ModelForm):
     class Meta:
         model = Feedback
-        fields = ['title', 'Trainer', 'message']
+        fields = ['title', 'ratting', 'message']
         
 class LoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}))

@@ -30,8 +30,8 @@
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <div class="program-single-content wow fadeInUp">
-                        <h2 class="text-center mb-4" style="color: var(--white-color);">Calculate Your Muscle Gain Plan</h2>
-                        <p class="text-center mb-4" style="color: var(--text-color);">Enter your current weight, target weight, and how many weeks you want to achieve it in. We'll recommend the best exercises for you.</p>
+                        <h2 class="text-center mb-4" style="color: var(--primary-color);">Calculate Your Muscle Gain Plan</h2>
+                        <p class="text-center mb-4" style="color: #666;">Enter your current weight, target weight, and how many weeks you want to achieve it in. We'll recommend the best exercises for you.</p>
 
                         <!-- Django Messages -->
                         {% if messages %}
@@ -40,26 +40,26 @@
                             {% endfor %}
                         {% endif %}
 
-                        <form method="POST" action="{% url 'musclebuilding' %}" class="wow fadeInUp" data-wow-delay="0.2s" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 40px;">
+                        <form method="POST" action="{% url 'musclebuilding' %}" class="wow fadeInUp" data-wow-delay="0.2s" style="background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.07); border: 1px solid #e0e0e0; border-radius: 15px; padding: 40px;">
                             {% csrf_token %}
                             <div class="row">
                                 <div class="col-md-4 mb-3">
-                                    <label style="color: var(--white-color); font-weight: 600; margin-bottom: 8px; display: block;">Current Weight (kg)</label>
+                                    <label style="color: var(--primary-color); font-weight: 600; margin-bottom: 8px; display: block;">Current Weight (kg)</label>
                                     <input type="number" name="current_weight" step="0.1" min="1" placeholder="e.g. 60" required
                                            value="{{ curr_weight|default:'' }}"
-                                           style="width: 100%; padding: 12px 18px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); color: #fff; font-size: 16px;">
+                                           style="width: 100%; padding: 12px 18px; border-radius: 10px; border: 1px solid #ddd; background: #f8f9fa; color: #222; font-size: 16px;">
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <label style="color: var(--white-color); font-weight: 600; margin-bottom: 8px; display: block;">Target Weight (kg)</label>
+                                    <label style="color: var(--primary-color); font-weight: 600; margin-bottom: 8px; display: block;">Target Weight (kg)</label>
                                     <input type="number" name="target_weight" step="0.1" min="1" placeholder="e.g. 75" required
                                            value="{{ target_weight|default:'' }}"
-                                           style="width: 100%; padding: 12px 18px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); color: #fff; font-size: 16px;">
+                                           style="width: 100%; padding: 12px 18px; border-radius: 10px; border: 1px solid #ddd; background: #f8f9fa; color: #222; font-size: 16px;">
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <label style="color: var(--white-color); font-weight: 600; margin-bottom: 8px; display: block;">Duration (Weeks)</label>
+                                    <label style="color: var(--primary-color); font-weight: 600; margin-bottom: 8px; display: block;">Duration (Weeks)</label>
                                     <input type="number" name="weeks" min="1" max="104" placeholder="e.g. 16" required
                                            value="{{ weeks|default:'' }}"
-                                           style="width: 100%; padding: 12px 18px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); color: #fff; font-size: 16px;">
+                                           style="width: 100%; padding: 12px 18px; border-radius: 10px; border: 1px solid #ddd; background: #f8f9fa; color: #222; font-size: 16px;">
                                 </div>
                             </div>
                             <div class="text-center mt-3">
@@ -79,27 +79,27 @@
                 <div class="col-lg-12 mb-5">
                     <div class="row wow fadeInUp" data-wow-delay="0.2s">
                         <div class="col-md-3 col-6 mb-3">
-                            <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 25px; text-align: center;">
+                            <div style="background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.07); border: 1px solid #e0e0e0; border-radius: 15px; padding: 25px; text-align: center;">
                                 <span style="font-size: 32px; font-weight: 700; color: var(--accent-color);">{{ curr_weight }} kg</span>
-                                <p style="color: var(--text-color); margin-top: 5px;">Current Weight</p>
+                                <p style="color: #666; margin-top: 5px;">Current Weight</p>
                             </div>
                         </div>
                         <div class="col-md-3 col-6 mb-3">
-                            <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 25px; text-align: center;">
+                            <div style="background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.07); border: 1px solid #e0e0e0; border-radius: 15px; padding: 25px; text-align: center;">
                                 <span style="font-size: 32px; font-weight: 700; color: var(--accent-color);">{{ target_weight }} kg</span>
-                                <p style="color: var(--text-color); margin-top: 5px;">Target Weight</p>
+                                <p style="color: #666; margin-top: 5px;">Target Weight</p>
                             </div>
                         </div>
                         <div class="col-md-3 col-6 mb-3">
-                            <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 25px; text-align: center;">
+                            <div style="background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.07); border: 1px solid #e0e0e0; border-radius: 15px; padding: 25px; text-align: center;">
                                 <span style="font-size: 32px; font-weight: 700; color: var(--accent-color);">{{ weekly_rate }} kg</span>
-                                <p style="color: var(--text-color); margin-top: 5px;">Per Week Gain</p>
+                                <p style="color: #666; margin-top: 5px;">Per Week Gain</p>
                             </div>
                         </div>
                         <div class="col-md-3 col-6 mb-3">
-                            <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 25px; text-align: center;">
+                            <div style="background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.07); border: 1px solid #e0e0e0; border-radius: 15px; padding: 25px; text-align: center;">
                                 <span style="font-size: 32px; font-weight: 700; color: var(--accent-color);">{{ finish_date }}</span>
-                                <p style="color: var(--text-color); margin-top: 5px;">Target Date</p>
+                                <p style="color: #666; margin-top: 5px;">Target Date</p>
                             </div>
                         </div>
                     </div>
@@ -116,20 +116,20 @@
                 <!-- Exercises -->
                 <div class="col-lg-8">
                     <div class="program-single-content wow fadeInUp" data-wow-delay="0.3s">
-                        <h2 style="color: var(--white-color); margin-bottom: 10px;">
+                        <h2 style="color: var(--primary-color); margin-bottom: 10px;">
                             <span style="color: var(--accent-color);">{{ plan_type }}</span> - Recommended Exercises
                         </h2>
-                        <p style="color: var(--text-color); margin-bottom: 25px;">
+                        <p style="color: #666; margin-bottom: 25px;">
                             You need to gain <strong>{{ total_change }} kg</strong> in <strong>{{ weeks }} weeks</strong>. Here's your personalized training plan:
                         </p>
 
                         {% for ex in exercises %}
-                        <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 20px; margin-bottom: 15px;" class="wow fadeInUp" data-wow-delay="0.{{ forloop.counter }}s">
+                        <div style="background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.07); border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; margin-bottom: 15px;" class="wow fadeInUp" data-wow-delay="0.{{ forloop.counter }}s">
                             <div class="d-flex justify-content-between align-items-center flex-wrap">
-                                <h4 style="color: var(--white-color); margin: 0;">{{ ex.name }}</h4>
+                                <h4 style="color: var(--primary-color); margin: 0;">{{ ex.name }}</h4>
                                 <span style="background: var(--accent-color); color: var(--primary-color); padding: 4px 14px; border-radius: 20px; font-size: 13px; font-weight: 600;">{{ ex.duration }}</span>
                             </div>
-                            <p style="color: var(--text-color); margin-top: 8px; margin-bottom: 0;">{{ ex.desc }}</p>
+                            <p style="color: #666; margin-top: 8px; margin-bottom: 0;">{{ ex.desc }}</p>
                         </div>
                         {% endfor %}
                     </div>
@@ -138,9 +138,9 @@
                 <!-- Sidebar Tips -->
                 <div class="col-lg-4">
                     <div class="program-sidebar wow fadeInUp" data-wow-delay="0.4s">
-                        <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 30px;">
-                            <h3 style="color: var(--white-color); margin-bottom: 15px;">Nutrition & Recovery Tips</h3>
-                            <ul style="color: var(--text-color); padding-left: 18px;">
+                        <div style="background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.07); border: 1px solid #e0e0e0; border-radius: 15px; padding: 30px;">
+                            <h3 style="color: var(--primary-color); margin-bottom: 15px;">Nutrition & Recovery Tips</h3>
+                            <ul style="color: #666; padding-left: 18px;">
                                 <li class="mb-2">Eat in a small calorie surplus (300-500 kcal above maintenance).</li>
                                 <li class="mb-2">Consume 1.6-2.2g protein per kg bodyweight daily.</li>
                                 <li class="mb-2">Focus on progressive overload in your lifts.</li>
@@ -149,8 +149,8 @@
                             </ul>
                         </div>
 
-                        <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 30px; margin-top: 20px;">
-                            <h3 style="color: var(--white-color); margin-bottom: 15px;">Try Another Plan</h3>
+                        <div style="background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.07); border: 1px solid #e0e0e0; border-radius: 15px; padding: 30px; margin-top: 20px;">
+                            <h3 style="color: var(--primary-color); margin-bottom: 15px;">Try Another Plan</h3>
                             <a href="{% url 'weightloss' %}" class="btn-default" style="display: block; text-align: center; margin-bottom: 10px;">Weight Loss Plan</a>
                             <a href="{% url 'programs' %}" class="btn-default btn-highlighted" style="display: block; text-align: center;">All Programs</a>
                         </div>

@@ -29,35 +29,35 @@
             <div class="row">
                 {% for order in orders %}
                 <div class="col-lg-6 mb-4">
-                    <div class="wow fadeInUp" data-wow-delay="0.{{ forloop.counter }}s" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 25px; height: 100%;">
+                    <div class="wow fadeInUp" data-wow-delay="0.{{ forloop.counter }}s" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 15px; padding: 25px; height: 100%; box-shadow: 0 2px 15px rgba(0,0,0,0.06);">
                         <div class="d-flex align-items-center" style="margin-bottom: 15px;">
                             <!-- Product Image -->
-                            <div style="background: rgba(0,0,0,0.2); border-radius: 10px; padding: 10px; margin-right: 15px;">
+                            <div style="background: #f9faf5; border: 1px solid #eee; border-radius: 10px; padding: 10px; margin-right: 15px;">
                                 <img src="{{ order.product.product_image.url }}" alt="{{ order.product.title }}" style="width: 90px; height: 90px; object-fit: contain; border-radius: 8px;">
                             </div>
                             <!-- Product Info -->
                             <div style="flex: 1;">
-                                <h5 style="color: var(--white-color); margin: 0 0 5px;">{{ order.product.title }}</h5>
-                                <span style="color: var(--accent-color); font-size: 20px; font-weight: 700;">Rs. {{ order.product.discounted_price }}</span>
+                                <h5 style="color: var(--primary-color); margin: 0 0 5px;">{{ order.product.title }}</h5>
+                                <span style="color: var(--primary-color); font-size: 20px; font-weight: 700;">Rs. {{ order.product.discounted_price }}</span>
                             </div>
                         </div>
 
                         <!-- Order Details -->
-                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 15px;">
+                        <div style="background: #f9faf5; border: 1px solid #eee; border-radius: 10px; padding: 15px;">
                             <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                <span style="color: var(--text-color); font-size: 14px;">Quantity</span>
-                                <span style="color: var(--white-color); font-weight: 600;">{{ order.quantity }}</span>
+                                <span style="color: #666; font-size: 14px;">Quantity</span>
+                                <span style="color: var(--primary-color); font-weight: 600;">{{ order.quantity }}</span>
                             </div>
                             <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                <span style="color: var(--text-color); font-size: 14px;">Order Date</span>
-                                <span style="color: var(--white-color); font-weight: 600;">{{ order.ordered_date|date:"d M, Y" }}</span>
+                                <span style="color: #666; font-size: 14px;">Order Date</span>
+                                <span style="color: var(--primary-color); font-weight: 600;">{{ order.ordered_date|date:"d M, Y" }}</span>
                             </div>
                             <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                <span style="color: var(--text-color); font-size: 14px;">Shipping To</span>
-                                <span style="color: var(--white-color); font-weight: 600;">{{ order.customer.name }} — {{ order.customer.state }}</span>
+                                <span style="color: #666; font-size: 14px;">Shipping To</span>
+                                <span style="color: var(--primary-color); font-weight: 600;">{{ order.customer.name }} — {{ order.customer.state }}</span>
                             </div>
                             <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <span style="color: var(--text-color); font-size: 14px;">Status</span>
+                                <span style="color: #666; font-size: 14px;">Status</span>
                                 {% if order.status == 'delivered' %}
                                 <span style="background: #28a745; color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 600;">
                                     <i class="fas fa-check-circle"></i> Delivered
@@ -81,10 +81,10 @@
             <!-- Empty State -->
             <div class="row">
                 <div class="col-lg-8 mx-auto text-center">
-                    <div class="wow fadeInUp" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 60px 30px;">
+                    <div class="wow fadeInUp" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 15px; padding: 60px 30px; box-shadow: 0 2px 15px rgba(0,0,0,0.06);">
                         <i class="fas fa-box-open" style="font-size: 60px; color: var(--accent-color); margin-bottom: 20px;"></i>
-                        <h3 style="color: var(--white-color); margin-bottom: 10px;">No Orders Yet</h3>
-                        <p style="color: var(--text-color);">You haven't placed any orders yet. Start shopping to see your orders here!</p>
+                        <h3 style="color: var(--primary-color); margin-bottom: 10px;">No Orders Yet</h3>
+                        <p style="color: #666;">You haven't placed any orders yet. Start shopping to see your orders here!</p>
                         <a href="{% url 'protein' %}" class="btn-default btn-highlighted" style="margin-top: 20px; display: inline-block;">
                             <i class="fas fa-shopping-bag" style="margin-right: 6px;"></i> Shop Now
                         </a>

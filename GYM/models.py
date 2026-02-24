@@ -20,23 +20,13 @@ category_choices = (
     ('shoes', 'Shoes'),
 )
 
-
-class Trainer(models.Model):
-    name = models.CharField(max_length=100)
-    specialization = models.CharField(max_length=100, blank=True)
-    bio = models.TextField(blank=True)
-    experience_years = models.PositiveIntegerField(default=0)
-
-    def __str__(self):
-        return self.name
-
 class Customer(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     locality = models.CharField(max_length=100)
     zipcode = models.IntegerField(validators=[MinValueValidator(10000), MaxValueValidator(99999)])
     state = models.CharField(choices=state_choices,max_length=100)
-    trainer = models.ForeignKey(Trainer, on_delete=models.SET_NULL, null=True, blank=True, help_text="Assigned trainer for online training")
+   
 
     def __str__(self):
         return str(self.id)
@@ -86,9 +76,9 @@ class Payment(models.Model):
     
 class Feedback(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    Trainer = models.ForeignKey(Trainer, on_delete=models.SET_NULL, null=True, blank=True, help_text="Trainer associated with the feedback")
     title = models.CharField(max_length=100)
     message = models.TextField()
+    ratting = models.PositiveIntegerField(default=3, validators=[MinValueValidator(1), MaxValueValidator(5)])
     submitted_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

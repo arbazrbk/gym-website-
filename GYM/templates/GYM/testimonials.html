@@ -25,27 +25,40 @@
     <div class="our-testimonials page-testimonials bg-section">
         <div class="container">
             <div class="row">
+                {% for r in review %}
                 <div class="col-xl-6">
-                    <div class="testimonial-item wow fadeInUp">
+                    <div class="testimonial-item wow fadeInUp" data-wow-delay="0.{{ forloop.counter }}s">
                         <div class="testimonial-item-header">
                             <div class="testimonial-item-rating">
-                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                {% for i in "12345"|make_list %}
+                                    {% if forloop.counter <= r.ratting %}
+                                        <i class="fa-solid fa-star"></i>
+                                    {% else %}
+                                        <i class="fa-regular fa-star"></i>
+                                    {% endif %}
+                                {% endfor %}
                             </div>
                             <div class="testimonial-item-quote"><img src="{% static 'images/testimonial-quote.svg' %}" alt=""></div>
                         </div>
                         <div class="testimonial-item-body">
-                            <p>“ GymPro stands out because of its professional approach to fitness. The personal training sessions are well-planned and goal-oriented. ”</p>
+                            <p>" {{ r.message }} "</p>
                             <div class="testimonial-item-author">
                                 <div class="testimonial-author-image"><img src="{% static 'images/author-1.jpg' %}" alt=""></div>
                                 <div class="testimonial-author-content">
-                                    <h2>Courtney Henry</h2>
-                                    <p>Premium Membership</p>
+                                    <h2>{{ r.user.username }}</h2>
+                                    <p>{{ r.title }}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                {% empty %}
+                <div class="col-12 text-center py-5">
+                    <h3 style="color: var(--primary-color);">No reviews yet. Be the first to share your experience!</h3>
+                    <a href="{% url 'feedback' %}" class="btn-default btn-highlighted mt-3">Submit Feedback</a>
                 </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 

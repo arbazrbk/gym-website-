@@ -1,14 +1,9 @@
 from django.contrib import admin
-from .models import Trainer, Customer, Product, Cart,OrderPlaced
+from .models import Feedback, Customer, Product, Cart,OrderPlaced
 
-@admin.register(Trainer)
-class TrainerAdmin(admin.ModelAdmin):
-    list_display = ('name', 'specialization', 'experience_years')
-    search_fields = ('name', 'specialization')
-    
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ('name', 'locality', 'zipcode', 'state', 'trainer')
+    list_display = ('name', 'locality', 'zipcode', 'state')
     search_fields = ('name', 'locality', 'state')
     
 @admin.register(Product)
@@ -28,3 +23,7 @@ class OrderPlacedAdmin(admin.ModelAdmin):
     search_fields = ('user__username', 'customer__name', 'product__title', 'status')
     
     
+@admin.register(Feedback)
+class FeedbackAdmin(admin.ModelAdmin):
+    list_display = ('user', 'title', 'ratting', 'submitted_at')
+    search_fields = ('user__username', 'title')
