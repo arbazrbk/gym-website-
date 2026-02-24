@@ -206,15 +206,40 @@ class customer_registration(View):
     
     def post(self, request):
         form = CustomerRegistrationForm(request.POST)
+        email = request.POST.get('email', '')
+        password = request.POST.get('password', '')
+
+        if not email or not password:
+            messages.error(request, 'Email and password are required.')
+            return render(request, 'GYM/customerregistration.html', {'form': form})
+
+        if User.objects.filter(username=email).exists():
+            messages.error(request, 'An account with this email already exists.')
+            return render(request, 'GYM/customerregistration.html', {'form': form})
+
         if form.is_valid():
-            form.save()
-            print("Customer registered successfully!")
-            messages.success(request, 'Customer registered successfully!')
+            user = User.objects.create_user(username=email, email=email, password=password)
+            customer = form.save(commit=False)
+            customer.user = user
+            customer.save()
+            messages.success(request, 'Registration successful! Please login.')
             return redirect('loginview')
         else:
            print("Form is not valid:", form.errors)
        
-
+def Login(request):
+    if request.method == 'POST':
+        form = LoginForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            messages.success(request, 'Logged in successfully!')
+            return redirect('home')
+        else:
+            messages.error(request, 'Invalid username or password.')
+    else:
+        form = LoginForm()
+    return render(request, 'GYM/login.html', {'form': form})
 def product_detail(request, pk):
     product = Product.objects.get(pk=pk)
     item_already_in_cart = False
