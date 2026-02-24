@@ -1,11 +1,60 @@
 {% extends "GYM/base.html" %}
+{% load static %}
+{% block title %}Our Programs - Gympro Fitness{% endblock %}
+
 {% block content %}
     <div class="page-header bg-section dark-section parallaxie">
-        <div class="container"><div class="page-header-box"><h1 class="text-anime-style-3">Our Programs</h1></div></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="page-header-box">
+                        <h1 class="text-anime-style-3" data-cursor="-opaque">Our Programs</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="page-programs">
+    <div class="our-programs page-programs">
         <div class="container">
             <div class="row program-item-list">
+                <div class="col-xl-4 col-md-6">
+                    <div class="program-item active wow fadeInUp">
+                        <div class="program-item-image">
+                            <figure><img src="{% static 'images/program-image-1.jpg' %}" alt=""></figure>
+                        </div>
+                        <div class="program-item-body">
+                            <div class="program-item-header">
+                                <div class="icon-box"><img src="{% static 'images/icon-program-item-1.svg' %}" alt=""></div>
+                                <div class="program-item-no"><span>01.</span></div>
+                            </div>
+                            <div class="program-item-body-content">
+                                <h2><a href="{% url 'musclebuilding' %}">Strength Training</a></h2>
+                                <p>Strength training programs designed for all fitness levels using modern equipment.</p>
+                                <div class="program-item-btn"><a href="{% url 'musclebuilding' %}" class="readmore-btn">View Program</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-md-6">
+                    <div class="program-item wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="program-item-image">
+                            <figure><img src="{% static 'images/program-image-2.jpg' %}" alt=""></figure>
+                        </div>
+                        <div class="program-item-body">
+                            <div class="program-item-header">
+                                <div class="icon-box"><img src="{% static 'images/icon-program-item-2.svg' %}" alt=""></div>
+                                <div class="program-item-no"><span>02.</span></div>
+                            </div>
+                            <div class="program-item-body-content">
+                                <h2><a href="{% url 'weightloss' %}">Weight Loss Program</a></h2>
+                                <p>A balanced workout plan combining cardio, strength, fitness and functional training.</p>
+                                <div class="program-item-btn"><a href="{% url 'weightloss' %}" class="readmore-btn">View Program</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 </div>
         </div>
     </div>

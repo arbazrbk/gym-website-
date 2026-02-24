@@ -24,4 +24,10 @@ urlpatterns = [
     path('remove_cart', views.remove_cart, name='remove_cart'),
     path('pluscart/', views.plus_cart, name='plus_cart'),
     path('minuscart/', views.minus_cart, name='minus_cart'),
+    path('weightloss/', views.weight_loss, name='weightloss'),
+    path('musclebuilding/', views.muscle_gain_plan, name='musclebuilding'),
+    path('product/<int:pk>/', views.product_detail, name='product_detail'),
+    path('protein/', views.Protein, name='protein'),
+    path('shirt/', views.shirt, name='shirt'),
+    path('shoes/', views.shoes, name='shoes'),
 ]

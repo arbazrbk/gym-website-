@@ -14,6 +14,12 @@ state_choices=(
     ('yasin','yasin'),
 )
 
+category_choices = (
+    ('protein', 'Protein'),
+    ('shirt', 'Shirt'),
+    ('shoes', 'Shoes'),
+)
+
 
 class Trainer(models.Model):
     name = models.CharField(max_length=100)
@@ -42,7 +48,7 @@ class Product(models.Model):
     discounted_price = models.FloatField(max_length=100)
     description = models.CharField(max_length=200)
     brand = models.CharField(max_length=200)
-    category = models.CharField(choices=state_choices,max_length=100)
+    category = models.CharField(choices=category_choices,max_length=100)
     product_image = models.ImageField()
 
     def __str__(self):

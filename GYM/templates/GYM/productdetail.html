@@ -1,0 +1,91 @@
+{% extends 'GYM/base.html' %}
+{% load static %}
+{% block title %}{{ product.title }} - Gympro Fitness{% endblock %}
+
+{% block content %}
+    <!-- Page Header -->
+    <div class="page-header bg-section dark-section parallaxie">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="page-header-box">
+                        <h1 class="text-anime-style-3" data-cursor="-opaque">Product Details</h1>
+                        <nav class="wow fadeInUp">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">{{ product.title }}</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Detail Section -->
+    <section class="page-program-single">
+        <div class="container" style="padding: 80px 0;">
+            <div class="row align-items-center">
+                <!-- Product Image -->
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div class="wow fadeInUp" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 30px; text-align: center;">
+                        <img src="{{ product.product_image.url }}" alt="{{ product.title }}" class="img-fluid" style="border-radius: 10px; max-height: 450px; object-fit: contain;">
+                    </div>
+                </div>
+
+                <!-- Product Info -->
+                <div class="col-lg-6">
+                    <div class="program-single-content wow fadeInUp" data-wow-delay="0.2s">
+                        <!-- Brand Badge -->
+                        <span style="background: var(--accent-color); color: var(--primary-color); padding: 4px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; display: inline-block; margin-bottom: 15px;">{{ product.brand }}</span>
+
+                        <!-- Title -->
+                        <h2 style="color: var(--white-color); font-size: 32px; margin-bottom: 10px;">{{ product.title }}</h2>
+
+                        <!-- Category -->
+                        <p style="color: var(--text-color); margin-bottom: 20px;">Category: <strong style="color: var(--white-color);">{{ product.category }}</strong></p>
+
+                        <!-- Price -->
+                        <div style="margin-bottom: 25px;">
+                            <span style="font-size: 36px; font-weight: 700; color: var(--accent-color);">Rs. {{ product.discounted_price }}</span>
+                            <span style="font-size: 20px; color: var(--text-color); text-decoration: line-through; margin-left: 15px;">Rs. {{ product.selling_price }}</span>
+                        </div>
+
+                        <!-- Description -->
+                        <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 20px; margin-bottom: 25px;">
+                            <h4 style="color: var(--white-color); margin-bottom: 10px;">Description</h4>
+                            <p style="color: var(--text-color); margin: 0;">{{ product.description }}</p>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex flex-wrap gap-3">
+                            {% if item_already_in_cart %}
+                                <a href="{% url 'showcart' %}" class="btn-default btn-highlighted" style="display: inline-flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-shopping-cart"></i> Go to Cart
+                                </a>
+                            {% else %}
+                                <form action="{% url 'add_to_cart' %}" class="d-inline">
+                                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                                    <button type="submit" class="btn-default btn-highlighted" style="display: inline-flex; align-items: center; gap: 8px; border: none; cursor: pointer;">
+                                        <i class="fas fa-cart-plus"></i> Add to Cart
+                                    </button>
+                                </form>
+                            {% endif %}
+                        </div>
+
+                        <!-- Offers Section -->
+                        <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 20px; margin-top: 25px;">
+                            <h4 style="color: var(--white-color); margin-bottom: 12px;"><i class="fas fa-tags" style="color: var(--accent-color); margin-right: 8px;"></i> Available Offers</h4>
+                            <ul style="color: var(--text-color); padding-left: 18px; margin: 0;">
+                                <li class="mb-2">Bank Offer: 5% Unlimited Cashback on selected cards</li>
+                                <li class="mb-2">Special Price: Extra discount included in shown price</li>
+                                <li class="mb-2">Free Shipping on orders above Rs. 999</li>
+                                <li class="mb-2">Easy 7-day returns & exchange policy</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

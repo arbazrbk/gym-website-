@@ -29,7 +29,7 @@
         <div class="header-sticky">
             <nav class="navbar navbar-expand-lg">
                 <div class="container">
-                    <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'images/logu.jpg' %}" alt="Logu"></a>
+                    <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'images/logo.svg' %}" alt="Logu"></a>
                     <div class="collapse navbar-collapse main-menu">
                         <ul class="navbar-nav mr-auto" id="menu">
                             <li class="nav-item submenu"><a class="nav-link" href="{% url 'home' %}">Home</a>
@@ -38,9 +38,9 @@
                             <li class="nav-item"><a class="nav-link" href="{% url 'programs' %}">Programs</a></li>
                             <li class="nav-item submenu"><a class="nav-link" href="#">Products</a>
                                 <ul>
-                                    <li><a href="#">protein</a></li>
-                                    <li><a href="#">shirt</a></li>
-                                    <li><a href="#">shoes</a></li>
+                                    <li><a href="{% url 'protein' %}">Protein</a></li>
+                                    <li><a href="{% url 'shirt' %}">Shirt</a></li>
+                                    <li><a href="{% url 'shoes' %}">Shoes</a></li>
                                 </ul> 
                             </li> 
                             <li class="nav-item submenu"><a class="nav-link" href="#">Pages</a>
@@ -80,7 +80,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="footer-header">
-                        <div class="footer-logo"><img src="{% static 'images/logu.png' %}" alt=""></div>
+                        <div class="footer-logo"><img src="{% static 'images/logo.svg' %}" alt=""></div>
                         <div class="section-title"><h2>Empowering Your Fitness Journey with Expert Training and Lasting Results</h2></div>
                     </div>
                 </div>
