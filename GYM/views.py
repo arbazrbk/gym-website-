@@ -8,9 +8,16 @@ from django.views import View
 from django.shortcuts import redirect
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.models import User
+from django.conf import settings
+import json
+import stripe
+from dotenv import load_dotenv
+from .permission import login_required_custom, silver_required, pro_required, subscription_required
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 def home(request):
     return render(request, 'GYM/home.html')  
@@ -18,9 +25,11 @@ def home(request):
 def about(request):
     return render(request, 'GYM/about.html')
 
+@silver_required
 def programs(request):
     return render(request, 'GYM/programs.html')
 
+@silver_required
 def weight_loss(request):
     # GET request: sirf form dikhao
     if request.method != 'POST':
@@ -93,6 +102,7 @@ def weight_loss(request):
     }
     return render(request, 'GYM/weight_loss_result.html', context)
 
+@pro_required
 def muscle_gain_plan(request):
     # GET request: sirf form dikhao
     if request.method != 'POST':
@@ -165,6 +175,7 @@ def muscle_gain_plan(request):
     return render(request, 'GYM/muscle_gain_result.html', context)
 
 
+@pro_required
 def classes(request):
     return render(request, 'GYM/classes.html')
 
@@ -193,6 +204,7 @@ def contact(request):
 def error_404(request):
     return render(request, 'GYM/404.html')
 
+@silver_required
 def feedback(request):
     form = FeedbackForm(request.POST )
     if form.is_valid():
@@ -253,6 +265,7 @@ def product_detail(request, pk):
 def buy_now(request):
     return render(request, 'GYM/buynow.html')
    
+@silver_required
 def showcart(request):
     if request.user.is_authenticated:
         user = request.user
@@ -273,6 +286,7 @@ def showcart(request):
         return render(request,'GYM/emptycart.html')
 
 
+@silver_required
 def addtocart(request): 
     user = request.user 
     product_id = request.GET.get('product_id') 
@@ -513,35 +527,157 @@ def orders(request):
     orders = OrderPlaced.objects.filter(user=user)
     return render(request, 'GYM/orders.html', {'orders': orders})
 
-@csrf_exempt  
-def stripe_webhook(request):
-    payload = request.body
-    event = None
+
+
+def create_checkout_session(request, plan_id):
+    """Create a Stripe Checkout Session for a plan subscription"""
+    if not request.user.is_authenticated:
+        messages.error(request, 'Please login first to subscribe.')
+        return redirect('loginview')
+    
+    try:
+        selected_plan = plan.objects.get(id=plan_id)
+    except plan.DoesNotExist:
+        messages.error(request, 'Plan not found.')
+        return redirect('pricing')
+    
+    # Use discount price if available, otherwise use regular price
+    if selected_plan.disscount_price and selected_plan.disscount_price > 0 and selected_plan.disscount_price < selected_plan.price:
+        amount = int(selected_plan.disscount_price * 100)  # Stripe uses paisa/cents
+    else:
+        amount = int(selected_plan.price * 100)
+    
+    # Stripe minimum amount check (~Rs. 150 = ~$0.50 USD)
+    if amount < 15000:
+        messages.error(request, 'Plan price is too low for online payment. Minimum Rs. 150 required.')
+        return redirect('pricing')
+    
+    # Make sure stripe key is set
+    import os
+    load_dotenv(os.path.join(settings.BASE_DIR, 'GYM', '.env'))
+    stripe.api_key = os.getenv('STRIPE_SECRET_KEY', settings.STRIPE_SECRET_KEY)
+    
+    if not stripe.api_key:
+        messages.error(request, 'Stripe API key is not configured.')
+        return redirect('pricing')
 
     try:
-        # JSON data ko parse karna hai
-        import json
-        data = json.loads(payload)
-        event_type = data['type']
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'pkr',
+                    'product_data': {
+                        'name': f'{selected_plan.name} Membership',
+                        'description': selected_plan.description[:200] if selected_plan.description else 'Gym Membership Plan',
+                    },
+                    'unit_amount': amount,
+                },
+                'quantity': 1,
+            }],
+            mode='payment',
+            client_reference_id=str(request.user.id),
+            metadata={
+                'plan_id': str(selected_plan.id),
+                'plan_name': selected_plan.name,
+                'user_id': str(request.user.id),
+            },
+            success_url=request.build_absolute_uri('/payment-success/') + '?session_id={CHECKOUT_SESSION_ID}',
+            cancel_url=request.build_absolute_uri('/payment-cancel/'),
+        )
+        return redirect(checkout_session.url, code=303)
     except Exception as e:
+        print(f"Stripe Error: {e}")
+        messages.error(request, f'Payment error: {str(e)}')
+        return redirect('pricing')
+
+def payment_success(request):
+    """Handle successful payment redirect from Stripe"""
+    session_id = request.GET.get('session_id')
+    if session_id:
+        try:
+            session = stripe.checkout.Session.retrieve(session_id)
+            context = {
+                'payment_status': 'success',
+                'plan_name': session.metadata.get('plan_name', 'Membership'),
+                'amount_paid': session.amount_total / 100 if session.amount_total else 0,
+                'currency': 'PKR',
+            }
+            return render(request, 'GYM/payment_success.html', context)
+        except Exception:
+            pass
+    return render(request, 'GYM/payment_success.html', {'payment_status': 'success'})
+
+def payment_cancel(request):
+    """Handle cancelled payment"""
+    return render(request, 'GYM/payment_cancel.html')
+
+@csrf_exempt    
+def stripe_webhook(request):
+    if request.method != 'POST':
+        return redirect('home')
+
+    payload = request.body
+    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE', '')
+    webhook_secret = settings.STRIPE_WEBHOOK_SECRET
+
+    try:
+        if webhook_secret:
+            # Verify webhook signature if secret is configured
+            event = stripe.Webhook.construct_event(payload, sig_header, webhook_secret)
+        else:
+            # Fallback: parse JSON directly (for development/testing)
+            data = json.loads(payload)
+            event = data
+    except (ValueError, stripe.error.SignatureVerificationError) as e:
+        print(f"Webhook error: {e}")
         return HttpResponse(status=400)
 
-    if event_type == 'checkout.session.completed':
-        session = data['data']['object']
-        user = session.get('client_reference_id')
-        db = SubcriptionModel.objects.filter(user_id=user).first()
-        if db :
-            db.status = 'active'
-            db.save()
+    event_type = event.get('type', '') if isinstance(event, dict) else event['type']
 
-        else :
-            print("User not found in subscription database.")
+    if event_type == 'checkout.session.completed':
+        if isinstance(event, dict):
+            session = event['data']['object']
+        else:
+            session = event.data.object
         
-        print("Payment successful for user!") 
+        user_id = session.get('client_reference_id') if isinstance(session, dict) else session.client_reference_id
+        metadata = session.get('metadata', {}) if isinstance(session, dict) else session.metadata
+        plan_name = metadata.get('plan_name', 'basic') if isinstance(metadata, dict) else getattr(metadata, 'plan_name', 'basic')
+        
+        stripe_session_id = session.get('id', '') if isinstance(session, dict) else session.id
+
+        if user_id:
+            try:
+                user_obj = User.objects.get(id=int(user_id))
+                # Update existing or create new subscription
+                sub, created = SubcriptionModel.objects.get_or_create(
+                    user_id=user_obj,
+                    defaults={
+                        'strip_id': stripe_session_id,
+                        'subcription_plan': plan_name.lower(),
+                        'status': 'active',
+                    }
+                )
+                if not created:
+                    sub.strip_id = stripe_session_id
+                    sub.subcription_plan = plan_name.lower()
+                    sub.status = 'active'
+                    sub.save()
+                print(f"Success: User {user_id} subscription '{plan_name}' activated.")
+            except User.DoesNotExist:
+                print(f"Error: User {user_id} not found.")
+            except Exception as e:
+                print(f"Error saving subscription: {e}")
+        else:
+            print("Error: No client_reference_id in session.")
 
     return HttpResponse(status=200)
 
 def pricing(request):
     pricing = plan.objects.all()
-    return render(request, 'GYM/pricing.html', {'pricing': pricing})
+    return render(request, 'GYM/pricing.html', {
+        'pricing': pricing,
+        'STRIPE_PUBLISHABLE_KEY': settings.STRIPE_PUBLISHABLE_KEY,
+    })
     

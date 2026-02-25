@@ -1,0 +1,280 @@
+{% extends "GYM/base.html" %}
+{% load static %}
+
+{% block title %}Upgrade Required - Gympro Fitness{% endblock %}
+
+{% block extra_css %}
+<style>
+    .access-denied-section {
+        padding: 120px 0 100px;
+        background: #0e0e12;
+        min-height: 65vh;
+    }
+
+    .access-card {
+        background: #ffffff;
+        border-radius: 24px;
+        padding: 60px 50px;
+        text-align: center;
+        max-width: 650px;
+        margin: 0 auto;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    }
+
+    .lock-icon {
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #1a1a2e, #2d2d50);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 30px;
+        font-size: 45px;
+        color: #CDEA26;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(205,234,38,0.4); }
+        50% { box-shadow: 0 0 0 15px rgba(205,234,38,0); }
+    }
+
+    .access-card h2 {
+        font-size: 30px;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin-bottom: 15px;
+    }
+
+    .access-card p {
+        color: #666;
+        font-size: 16px;
+        line-height: 1.7;
+        margin-bottom: 10px;
+    }
+
+    .plan-comparison {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin: 35px 0;
+    }
+
+    .plan-box {
+        background: #f8f9fa;
+        border-radius: 16px;
+        padding: 25px 30px;
+        text-align: center;
+        min-width: 160px;
+        position: relative;
+    }
+
+    .plan-box.current {
+        border: 2px solid #ddd;
+    }
+
+    .plan-box.required {
+        border: 2px solid #CDEA26;
+        background: #fafff0;
+    }
+
+    .plan-box .plan-label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #999;
+        margin-bottom: 8px;
+        font-weight: 700;
+    }
+
+    .plan-box .plan-name {
+        font-size: 22px;
+        font-weight: 700;
+        color: #1a1a2e;
+    }
+
+    .plan-box.current .plan-name { color: #888; }
+    .plan-box.required .plan-name { color: #5a7a00; }
+
+    .plan-box .plan-icon {
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+
+    .plan-arrow {
+        display: flex;
+        align-items: center;
+        font-size: 24px;
+        color: #CDEA26;
+    }
+
+    .access-btn {
+        display: inline-block;
+        background: #CDEA26;
+        color: #1a1a2e;
+        padding: 16px 45px;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 16px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        margin: 10px 8px 0;
+    }
+
+    .access-btn:hover {
+        background: #1a1a2e;
+        color: #CDEA26;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        transform: translateY(-2px);
+    }
+
+    .access-btn-ghost {
+        background: transparent;
+        color: #1a1a2e;
+        border: 2px solid #ddd;
+    }
+
+    .access-btn-ghost:hover {
+        border-color: #1a1a2e;
+        background: transparent;
+        color: #1a1a2e;
+    }
+
+    .features-preview {
+        margin-top: 30px;
+        padding-top: 25px;
+        border-top: 1px solid #eee;
+    }
+
+    .features-preview h4 {
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #999;
+        margin-bottom: 15px;
+    }
+
+    .features-preview ul {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .features-preview ul li {
+        background: #f0f0f0;
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 13px;
+        color: #555;
+    }
+
+    .features-preview ul li i {
+        color: #CDEA26;
+        margin-right: 5px;
+    }
+
+    @media (max-width: 767px) {
+        .access-card { padding: 40px 25px; }
+        .plan-comparison { flex-direction: column; align-items: center; gap: 15px; }
+        .plan-arrow { transform: rotate(90deg); }
+        .access-card h2 { font-size: 24px; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="page-header bg-section dark-section parallaxie">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="page-header-box">
+                        <h1 class="text-anime-style-3" data-cursor="-opaque">Upgrade Required</h1>
+                        <nav class="wow fadeInUp">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'home' %}">home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Access Denied</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="access-denied-section">
+        <div class="container">
+            <div class="access-card wow fadeInUp">
+                <div class="lock-icon">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                
+                <h2>This Feature Requires {{ required_plan }} Plan</h2>
+                <p>You're currently on the <strong>{{ user_plan }}</strong> plan. Upgrade to <strong>{{ required_plan }}</strong> to unlock this feature and many more!</p>
+
+                <div class="plan-comparison">
+                    <div class="plan-box current">
+                        <div class="plan-label">Your Plan</div>
+                        <div class="plan-icon">
+                            {% if user_level == 0 %}
+                                <i class="fa-solid fa-user" style="color: #aaa;"></i>
+                            {% elif user_level == 1 %}
+                                <i class="fa-solid fa-medal" style="color: #C0C0C0;"></i>
+                            {% else %}
+                                <i class="fa-solid fa-crown" style="color: #FFD700;"></i>
+                            {% endif %}
+                        </div>
+                        <div class="plan-name">{{ user_plan }}</div>
+                    </div>
+
+                    <div class="plan-arrow">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+
+                    <div class="plan-box required">
+                        <div class="plan-label">Required</div>
+                        <div class="plan-icon">
+                            {% if required_plan == "Silver" %}
+                                <i class="fa-solid fa-medal" style="color: #C0C0C0;"></i>
+                            {% else %}
+                                <i class="fa-solid fa-crown" style="color: #FFD700;"></i>
+                            {% endif %}
+                        </div>
+                        <div class="plan-name">{{ required_plan }}</div>
+                    </div>
+                </div>
+
+                <div>
+                    <a href="{% url 'pricing' %}" class="access-btn">
+                        <i class="fa-solid fa-rocket"></i> Upgrade Now
+                    </a>
+                    <a href="{% url 'home' %}" class="access-btn access-btn-ghost">
+                        Go Home
+                    </a>
+                </div>
+
+                <div class="features-preview">
+                    <h4>What you'll unlock with {{ required_plan }}</h4>
+                    <ul>
+                        {% if required_plan == "Silver" %}
+                        <li><i class="fa-solid fa-check"></i> Weight Loss Plans</li>
+                        <li><i class="fa-solid fa-check"></i> Programs Access</li>
+                        <li><i class="fa-solid fa-check"></i> Product Shopping</li>
+                        <li><i class="fa-solid fa-check"></i> Cart & Checkout</li>
+                        <li><i class="fa-solid fa-check"></i> Submit Feedback</li>
+                        {% else %}
+                        <li><i class="fa-solid fa-check"></i> Everything in Silver</li>
+                        <li><i class="fa-solid fa-check"></i> Muscle Building Plans</li>
+                        <li><i class="fa-solid fa-check"></i> Exclusive Classes</li>
+                        <li><i class="fa-solid fa-check"></i> Priority Support</li>
+                        <li><i class="fa-solid fa-check"></i> Full Access</li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
