@@ -40,7 +40,6 @@
                             {% else %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'pricing' %}">Plan</a></li>
                             {% endif %}
-                            {% if is_silver_or_above %}
                             <li class="nav-item submenu"><a class="nav-link" href="#">Products</a>
                                 <ul>
                                     <li><a href="{% url 'protein' %}">Protein</a></li>
@@ -48,20 +47,15 @@
                                     <li><a href="{% url 'shoes' %}">Shoes</a></li>
                                 </ul> 
                             </li> 
-                            {% endif %}
                             <li class="nav-item submenu"><a class="nav-link" href="#">Pages</a>
                                 <ul>
                                     <li><a href="{% url 'testimonials' %}">Reviews</a></li>
-                                    {% if is_silver_or_above %}
                                     <li><a href="{% url 'feedback' %}">Feedback</a></li>
                                     <li><a href="{% url 'orders' %}">Orders</a></li>
-                                    {% endif %}
                                     <li><a href="{% url 'about' %}">About_us</a></li>
                                 </ul>
                             </li>
-                            {% if is_silver_or_above %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'showcart' %}"><i class="fa-solid fa-cart-shopping"></i> Cart</a></li>
-                            {% endif %}
                             {% if request.user.is_authenticated %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'orders' %}">{{ request.user.username }}</a></li>
                             <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>

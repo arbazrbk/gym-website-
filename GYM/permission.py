@@ -59,6 +59,7 @@ def login_required_custom(view_func):
 def subscription_required(min_plan='silver'):
     """
     User must have at least the specified plan.
+    Admin (is_superuser / is_staff) always has full access.
     Usage: @subscription_required('silver') or @subscription_required('pro')
     """
     min_level = PLAN_LEVELS.get(min_plan.lower(), 1)
@@ -70,6 +71,10 @@ def subscription_required(min_plan='silver'):
             if not request.user.is_authenticated:
                 messages.error(request, 'Please login first.')
                 return redirect('loginview')
+            
+            # Admin/Staff bypass - full access
+            if request.user.is_superuser or request.user.is_staff:
+                return view_func(request, *args, **kwargs)
             
             user_level = get_user_plan_level(request.user)
             user_plan = get_user_plan_name(request.user)

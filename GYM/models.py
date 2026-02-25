@@ -86,8 +86,10 @@ class Feedback(models.Model):
     
 plan_choice =(
     ('basic','basic'),
+    ('silver','silver'),
     ('premium','premium'),
     ('pro','pro'),
+    ('free','free'),
 ) 
 
 status_choice = (

@@ -596,16 +596,41 @@ def payment_success(request):
     session_id = request.GET.get('session_id')
     if session_id:
         try:
+            # Make sure stripe key is loaded
+            import os
+            load_dotenv(os.path.join(settings.BASE_DIR, 'GYM', '.env'))
+            stripe.api_key = os.getenv('STRIPE_SECRET_KEY', settings.STRIPE_SECRET_KEY)
+            
             session = stripe.checkout.Session.retrieve(session_id)
+            
+            # Save subscription to DB directly (webhook may not fire in local dev)
+            if request.user.is_authenticated and session.payment_status == 'paid':
+                plan_name = session.metadata.get('plan_name', 'silver') if hasattr(session.metadata, 'get') else getattr(session.metadata, 'plan_name', 'silver')
+                
+                sub, created = SubcriptionModel.objects.get_or_create(
+                    user_id=request.user,
+                    defaults={
+                        'strip_id': session.id,
+                        'subcription_plan': plan_name.lower(),
+                        'status': 'active',
+                    }
+                )
+                if not created:
+                    sub.strip_id = session.id
+                    sub.subcription_plan = plan_name.lower()
+                    sub.status = 'active'
+                    sub.save()
+                print(f"DB Saved: User {request.user.username} -> Plan '{plan_name}' activated.")
+            
             context = {
                 'payment_status': 'success',
-                'plan_name': session.metadata.get('plan_name', 'Membership'),
+                'plan_name': session.metadata.get('plan_name', 'Membership') if hasattr(session.metadata, 'get') else getattr(session.metadata, 'plan_name', 'Membership'),
                 'amount_paid': session.amount_total / 100 if session.amount_total else 0,
                 'currency': 'PKR',
             }
             return render(request, 'GYM/payment_success.html', context)
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"Payment success error: {e}")
     return render(request, 'GYM/payment_success.html', {'payment_status': 'success'})
 
 def payment_cancel(request):
