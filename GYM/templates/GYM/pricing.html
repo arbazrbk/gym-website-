@@ -1,10 +1,411 @@
 {% extends "GYM/base.html" %}
+{% load static %}
+
+{% block title %}Pricing Plans - Gympro Fitness{% endblock %}
+
+{% block extra_css %}
+<style>
+    
+    .page-pricing {
+        padding: 100px 0;
+        background: #f8f9fa;
+    }
+
+    .pricing-section-title {
+        text-align: center;
+        margin-bottom: 60px;
+    }
+
+    .pricing-section-title span {
+        display: inline-block;
+        color: #CDEA26;
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        margin-bottom: 12px;
+        position: relative;
+        padding: 0 20px;
+    }
+
+    .pricing-section-title span::before,
+    .pricing-section-title span::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        width: 40px;
+        height: 2px;
+        background: #CDEA26;
+    }
+
+    .pricing-section-title span::before { right: 100%; }
+    .pricing-section-title span::after { left: 100%; }
+
+    .pricing-section-title h2 {
+        font-size: 42px;
+        font-weight: 700;
+        color: black;
+        margin-bottom: 15px;
+    }
+
+    .pricing-section-title p {
+        color: #999;
+        font-size: 16px;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    /* ===== PRICING CARD ===== */
+    .pricing-card {
+        background: #ffffff;
+        border: 1px solid #e5e5e5;
+        border-radius: 20px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .pricing-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Top white section */
+    .pricing-card-top {
+        padding: 40px 35px 30px;
+        flex-grow: 1;
+    }
+
+    /* Bottom dark section */
+    .pricing-card-bottom {
+        background: #1a1a2e;
+        padding: 28px 35px;
+        border-radius: 16px;
+        margin: 0 8px 8px;
+    }
+
+    /* Popular Badge */
+    .pricing-badge {
+        position: absolute;
+        top: 20px;
+        right: -30px;
+        background: #CDEA26;
+        color: #1a1a2e;
+        padding: 5px 40px;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transform: rotate(45deg);
+        z-index: 2;
+    }
+
+    /* Plan Icon */
+    .pricing-card-header {
+        margin-bottom: 25px;
+    }
+
+    .pricing-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: rgba(205, 234, 38, 0.12);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #CDEA26;
+        border: 2px solid #CDEA26;
+    }
+
+    .pricing-card-header h3 {
+        font-size: 22px;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin: 0;
+    }
+
+    /* Description text */
+    .pricing-description {
+        color: #666;
+        font-size: 15px;
+        line-height: 1.6;
+        margin-bottom: 25px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eee;
+    }
+
+    /* Description / Features */
+    .pricing-features {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .pricing-features li {
+        padding: 8px 0;
+        color: #444;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .pricing-features li i {
+        color: #CDEA26;
+        font-size: 10px;
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        background: rgba(205, 234, 38, 0.15);
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* ===== BOTTOM DARK SECTION ===== */
+    .pricing-price-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 12px;
+    }
+
+    .pricing-price .current-price {
+        font-size: 32px;
+        font-weight: 700;
+        color: #fff;
+        line-height: 1;
+    }
+
+    .pricing-price .current-price sub {
+        font-size: 14px;
+        color: #aaa;
+        font-weight: 400;
+        bottom: 0;
+    }
+
+    .pricing-price .original-price {
+        font-size: 15px;
+        color: #777;
+        text-decoration: line-through;
+        display: block;
+        margin-bottom: 4px;
+    }
+
+    /* CTA Button */
+    .pricing-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 28px;
+        border-radius: 50px;
+        font-size: 14px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        background: #CDEA26;
+        color: #1a1a2e;
+        border: 2px solid #CDEA26;
+        white-space: nowrap;
+    }
+
+    .pricing-btn i {
+        font-size: 12px;
+        transition: transform 0.3s ease;
+    }
+
+    .pricing-btn:hover {
+        background: transparent;
+        color: #CDEA26;
+        box-shadow: 0 5px 20px rgba(205, 234, 38, 0.3);
+    }
+
+    .pricing-btn:hover i {
+        transform: translateX(3px);
+    }
+
+    .pricing-classes {
+        color: #CDEA26;
+        font-size: 13px;
+        font-weight: 600;
+        margin-top: 2px;
+    }
+
+    .pricing-free-trial {
+        color: #aaa;
+        font-size: 13px;
+        margin-top: 15px;
+        padding-top: 12px;
+        border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* ===== EMPTY STATE ===== */
+    .pricing-empty {
+        text-align: center;
+        padding: 80px 20px;
+    }
+
+    .pricing-empty i {
+        font-size: 60px;
+        color: #333;
+        margin-bottom: 25px;
+    }
+
+    .pricing-empty h3 {
+        color: #fff;
+        font-size: 26px;
+        margin-bottom: 12px;
+    }
+
+    .pricing-empty p {
+        color: #777;
+        font-size: 16px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 991px) {
+        .pricing-section-title h2 { font-size: 32px; }
+        .pricing-price .current-price { font-size: 26px; }
+        .page-pricing { padding: 70px 0; }
+    }
+
+    @media (max-width: 767px) {
+        .pricing-section-title h2 { font-size: 26px; }
+        .pricing-card-top { padding: 30px 22px 25px; }
+        .pricing-card-bottom { padding: 22px; }
+        .pricing-price-row { flex-direction: column; align-items: flex-start; gap: 15px; }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
+    <!-- Page Header -->
     <div class="page-header bg-section dark-section parallaxie">
-        <div class="container"><div class="page-header-box"><h1 class="text-anime-style-3">Pricing Plans</h1></div></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="page-header-box">
+                        <h1 class="text-anime-style-3" data-cursor="-opaque">Pricing Plans</h1>
+                        <nav class="wow fadeInUp">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'home' %}">home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Pricing</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- Pricing Cards Section -->
     <div class="page-pricing">
         <div class="container">
+            <!-- Section Title -->
+            <div class="pricing-section-title wow fadeInUp">
+                <span>Our Plans</span>
+                <h2>Choose Your Perfect Fitness Plan</h2>
+                <p>Select the membership that fits your goals. Train hard, stay consistent, and let us handle the rest.</p>
             </div>
+
+            <div class="row justify-content-center g-4">
+                {% for p in pricing %}
+                <div class="col-lg-4 col-md-6">
+                    <div class="pricing-card wow fadeInUp" data-wow-delay="0.{{ forloop.counter }}s">
+
+                        {% if forloop.counter == 2 %}
+                        <div class="pricing-badge">Popular</div>
+                        {% endif %}
+
+                        <!-- White Top Section -->
+                        <div class="pricing-card-top">
+                            <div class="pricing-card-header">
+                                <div class="pricing-icon">
+                                    {% if forloop.counter == 1 %}
+                                        <i class="fa-solid fa-dumbbell"></i>
+                                    {% elif forloop.counter == 2 %}
+                                        <i class="fa-solid fa-fire"></i>
+                                    {% elif forloop.counter == 3 %}
+                                        <i class="fa-solid fa-crown"></i>
+                                    {% else %}
+                                        <i class="fa-solid fa-bolt"></i>
+                                    {% endif %}
+                                </div>
+                                <h3>{{ p.name }}</h3>
+                            </div>
+
+                            <p class="pricing-description">{{ p.description|truncatewords:20 }}</p>
+
+                            <ul class="pricing-features">
+                                {% for line in p.description.splitlines %}
+                                    {% if line.strip %}
+                                    <li>
+                                        <i class="fa-solid fa-square"></i>
+                                        <span>{{ line }}</span>
+                                    </li>
+                                    {% endif %}
+                                {% empty %}
+                                    <li>
+                                        <i class="fa-solid fa-square"></i>
+                                        <span>Priority Support & Premium Locker</span>
+                                    </li>
+                                    <li>
+                                        <i class="fa-solid fa-square"></i>
+                                        <span>High-energy group fitness classes</span>
+                                    </li>
+                                    <li>
+                                        <i class="fa-solid fa-square"></i>
+                                        <span>Motivating & supportive environment</span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <!-- Dark Bottom Section -->
+                        <div class="pricing-card-bottom">
+                            <div class="pricing-price-row">
+                                <div class="pricing-price">
+                                    {% if p.disscount_price and p.disscount_price > 0 and p.disscount_price < p.price %}
+                                        <span class="original-price">Rs. {{ p.price|floatformat:"2" }}</span>
+                                        <div class="current-price">
+                                            Rs. {{ p.disscount_price|floatformat:"2" }} <sub>/Monthly</sub>
+                                        </div>
+                                    {% else %}
+                                        <div class="current-price">
+                                            Rs. {{ p.price|floatformat:"2" }} <sub>/Monthly</sub>
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                {% if request.user.is_authenticated %}
+                                    <a href="{% url 'payment' %}" class="pricing-btn">Join Now <i class="fa-solid fa-arrow-right"></i></a>
+                                {% else %}
+                                    <a href="{% url 'loginview' %}" class="pricing-btn">Join Now <i class="fa-solid fa-arrow-right"></i></a>
+                                {% endif %}
+                            </div>
+
+                            <div class="pricing-classes">* Monthly {{ forloop.counter }}0 Classes</div>
+                            <div class="pricing-free-trial">Try Any Membership Free for 1 Week</div>
+                        </div>
+
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <div class="pricing-empty wow fadeInUp">
+                        <i class="fa-solid fa-tags"></i>
+                        <h3>No Plans Available Yet</h3>
+                        <p>We're working on amazing fitness plans for you. Check back soon!</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 {% endblock %}

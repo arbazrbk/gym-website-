@@ -35,7 +35,7 @@
                             <li class="nav-item submenu"><a class="nav-link" href="{% url 'home' %}">Home</a>
                             </li>
                             <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{% url 'programs' %}">Programs</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'pricing' %}">Plan</a></li>
                             <li class="nav-item submenu"><a class="nav-link" href="#">Products</a>
                                 <ul>
                                     <li><a href="{% url 'protein' %}">Protein</a></li>
@@ -48,11 +48,10 @@
                                     <li><a href="{% url 'testimonials' %}">Reviews</a></li>
                                     <li><a href="{% url 'feedback' %}">Feedback</a></li>
                                     <li><a href="{% url 'orders' %}">Orders</a></li>
-                                    <li><a href="{% url 'faqs' %}">FAQs</a></li>
+                                    <li><a href="{% url 'about' %}">About_us</a></li>
                                     <li><a href="{% url 'error_404' %}">404</a></li>
                                 </ul>
                             </li>
-                            <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact Us</a></li>
                             <li class="nav-item"><a class="nav-link" href="{% url 'showcart' %}">add_to_cart</a></li>
                             {% if request.user.is_authenticated %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'orders' %}">{{request.user.username  }}</a></li>

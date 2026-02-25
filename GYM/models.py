@@ -104,3 +104,12 @@ class SubcriptionModel(models.Model):
 
     def __str__(self):
         return self.user_id.username
+    
+class plan(models.Model):
+    name = models.CharField(max_length=100)
+    price = models.FloatField(default=0.0)
+    disscount_price = models.FloatField(default=0.0)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.name    

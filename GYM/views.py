@@ -1,6 +1,6 @@
 from urllib import request
 from django.shortcuts import render
-from .models import Customer, Product, Cart, OrderPlaced, Feedback, SubcriptionModel
+from .models import Customer, Product, Cart, OrderPlaced, Feedback, SubcriptionModel,plan
 from .foams import CustomerRegistrationForm, ProductForm, FeedbackForm,LoginForm,PasswordChangeForm
 from django.contrib import messages
 from datetime import datetime, timedelta
@@ -540,4 +540,8 @@ def stripe_webhook(request):
         print("Payment successful for user!") 
 
     return HttpResponse(status=200)
+
+def pricing(request):
+    pricing = plan.objects.all()
+    return render(request, 'GYM/pricing.html', {'pricing': pricing})
     
