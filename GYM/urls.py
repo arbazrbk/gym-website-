@@ -28,4 +28,5 @@ urlpatterns = [
     path('checkout/', views.checkout, name='checkout'),
     path('order-success/', views.order_success, name='order_success'),
     path('orders/', views.orders, name='orders'),
+    path('payment/', views.stripe_webhook, name='payment'),
 ]

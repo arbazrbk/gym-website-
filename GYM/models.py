@@ -83,3 +83,24 @@ class Feedback(models.Model):
 
     def __str__(self):
         return f"Feedback from {self.user.username} at {self.submitted_at}"
+    
+plan_choice =(
+    ('basic','basic'),
+    ('premium','premium'),
+    ('pro','pro'),
+) 
+
+status_choice = (
+    ('active','active'),
+    ('cancelled','cancelled'),
+)
+  
+class SubcriptionModel(models.Model):
+    user_id = models.ForeignKey(User,on_delete=models.CASCADE)
+    strip_id = models.CharField(max_length=100)
+    subcription_plan = models.CharField(choices=plan_choice,max_length=100)
+    status = models.CharField(choices=status_choice,max_length=100)
+    subscribed_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user_id.username

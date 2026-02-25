@@ -1,12 +1,14 @@
 from urllib import request
 from django.shortcuts import render
-from .models import Customer, Product, Cart, OrderPlaced, Feedback
+from .models import Customer, Product, Cart, OrderPlaced, Feedback, SubcriptionModel
 from .foams import CustomerRegistrationForm, ProductForm, FeedbackForm,LoginForm,PasswordChangeForm
 from django.contrib import messages
 from datetime import datetime, timedelta
 from django.views import View
 from django.shortcuts import redirect
 from django.db.models import Q
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.models import User
 
@@ -510,3 +512,32 @@ def orders(request):
     user = request.user
     orders = OrderPlaced.objects.filter(user=user)
     return render(request, 'GYM/orders.html', {'orders': orders})
+
+@csrf_exempt  
+def stripe_webhook(request):
+    payload = request.body
+    event = None
+
+    try:
+        # JSON data ko parse karna hai
+        import json
+        data = json.loads(payload)
+        event_type = data['type']
+    except Exception as e:
+        return HttpResponse(status=400)
+
+    if event_type == 'checkout.session.completed':
+        session = data['data']['object']
+        user = session.get('client_reference_id')
+        db = SubcriptionModel.objects.filter(user_id=user).first()
+        if db :
+            db.status = 'active'
+            db.save()
+
+        else :
+            print("User not found in subscription database.")
+        
+        print("Payment successful for user!") 
+
+    return HttpResponse(status=200)
+    
