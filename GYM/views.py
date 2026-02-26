@@ -13,11 +13,85 @@ from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.models import User
 from django.conf import settings
 import json
+import os
 import stripe
 from dotenv import load_dotenv
 from .permission import login_required_custom, silver_required, pro_required, subscription_required
 
+# LangGraph / OpenAI imports for chatbot
+from typing import TypedDict, Annotated
+from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
+from langchain_openai import ChatOpenAI
+from langgraph.graph import StateGraph, START, END
+from langgraph.graph.message import add_messages
+
 stripe.api_key = settings.STRIPE_SECRET_KEY
+
+# ============ LLM Chatbot Setup ============
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY', '')
+
+llm = ChatOpenAI(
+    model="gpt-3.5-turbo",
+    temperature=0.5,
+    api_key=OPENAI_API_KEY,
+)
+
+GYMPRO_SYSTEM_PROMPT = (
+    "You are an intelligent, friendly, and knowledgeable fitness assistant for **GymPro**, "
+    "a gym and fitness platform that offers workout programs, fitness products, and subscription plans.\n\n"
+    "The platform has these main features:\n"
+    "1. **Workout Programs**: Weight Loss program and Strength Training / Muscle Building program.\n"
+    "2. **Shop**: Protein supplements, gym shirts, and shoes.\n"
+    "3. **Subscription Plans**: Free, Silver (programs + shop access), and Pro (full access to everything).\n"
+    "4. **Feedback & Reviews**: Users can submit feedback.\n\n"
+    "IMPORTANT RESPONSE RULES:\n"
+    "- Keep answers concise (2-4 sentences max).\n"
+    "- Use a motivational, supportive, and professional gym-bro tone.\n"
+    "- You can use emojis like 💪🔥🏋️ to keep it fun.\n"
+    "- If the user asks about weight loss, mention the Weight Loss program.\n"
+    "- If the user asks about muscle/strength/bulking, mention the Muscle Building program.\n"
+    "- If the user asks about plans/pricing/subscription, mention Silver and Pro plans.\n"
+    "- For unrelated topics, politely redirect to fitness topics.\n"
+    "- NEVER make up features that don't exist on GymPro.\n"
+    "- Reply in the same language the user writes in (English or Urdu/Roman Urdu).\n\n"
+    "At the END of your reply, on a NEW line, you MUST add one of these redirect tags if relevant:\n"
+    "[REDIRECT:/weightloss/] — if user asks about weight loss\n"
+    "[REDIRECT:/musclebuilding/] — if user asks about muscle gain/strength\n"
+    "[REDIRECT:/programs/] — if user asks about programs in general\n"
+    "[REDIRECT:/pricing/] — if user asks about plans/pricing/subscription\n"
+    "[REDIRECT:/protein/] — if user asks about protein products\n"
+    "[REDIRECT:/shirt/] — if user asks about shirts\n"
+    "[REDIRECT:/shoes/] — if user asks about shoes\n"
+    "[REDIRECT:/feedback/] — if user asks about feedback/reviews\n"
+    "[REDIRECT:/contact/] — if user asks about contact/support\n"
+    "If no redirect is needed, don't add any tag."
+)
+
+
+class ChatState(TypedDict):
+    messages: Annotated[list, add_messages]
+    user_query: str
+
+
+def gym_chat_node(state: ChatState):
+    user_query = state.get("user_query", "")
+    chat_messages = [
+        SystemMessage(content=GYMPRO_SYSTEM_PROMPT),
+        HumanMessage(content=user_query),
+    ]
+    response = llm.invoke(chat_messages)
+    return {
+        "messages": chat_messages + [response],
+        "reply": response.content,
+    }
+
+
+# Build LangGraph
+_graph = StateGraph(ChatState)
+_graph.add_node("gym_chat_node", gym_chat_node)
+_graph.add_edge(START, "gym_chat_node")
+_graph.add_edge("gym_chat_node", END)
+gym_chatbot_graph = _graph.compile()
 
 def home(request):
     return render(request, 'GYM/home.html')  
@@ -706,5 +780,63 @@ def pricing(request):
         'STRIPE_PUBLISHABLE_KEY': settings.STRIPE_PUBLISHABLE_KEY,
     })
     
+import re as _re
+
+@csrf_exempt
 def chatbot(request):
-    return render(request, 'GYM/chatbot.html')
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            user_message = data.get('message', '').strip()
+            if not user_message:
+                return JsonResponse({'reply': 'Please type a message! 💬'})
+
+            # Call LLM via LangGraph
+            result = gym_chatbot_graph.invoke({'user_query': user_message})
+            raw_reply = ''
+            for msg in result.get('messages', []):
+                if isinstance(msg, AIMessage):
+                    raw_reply = msg.content
+
+            if not raw_reply:
+                raw_reply = result.get('reply', '')
+
+            # Extract redirect tag if present
+            redirect_url = None
+            redirect_match = _re.search(r'\[REDIRECT:(.*?)\]', raw_reply)
+            if redirect_match:
+                redirect_url = redirect_match.group(1).strip()
+                # Remove the tag from displayed reply
+                raw_reply = _re.sub(r'\[REDIRECT:.*?\]', '', raw_reply).strip()
+
+            # Convert newlines to <br> for HTML display
+            reply_html = raw_reply.replace('\n', '<br>')
+
+            # If redirect found, append a styled button link
+            if redirect_url:
+                page_names = {
+                    '/weightloss/': '🔥 Weight Loss Program',
+                    '/musclebuilding/': '💪 Muscle Building',
+                    '/programs/': '🏋️ Our Programs',
+                    '/pricing/': '💰 Pricing & Plans',
+                    '/protein/': '🥤 Protein Shop',
+                    '/shirt/': '👕 Shirts',
+                    '/shoes/': '👟 Shoes',
+                    '/feedback/': '📝 Feedback',
+                    '/contact/': '📧 Contact Us',
+                }
+                btn_text = page_names.get(redirect_url, '🔗 Go to Page')
+                reply_html += (
+                    f'<br><br><a href="{redirect_url}" '
+                    f'style="display:inline-block;background:linear-gradient(135deg,#CDEA26,#9ab800);'
+                    f'color:#111;padding:8px 18px;border-radius:20px;text-decoration:none;'
+                    f'font-weight:600;font-size:13px;">{btn_text} →</a>'
+                )
+
+            return JsonResponse({'reply': reply_html, 'redirect': redirect_url})
+
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            return JsonResponse({'reply': 'Sorry, something went wrong. Please try again. ⚠️'}, status=500)
+    return JsonResponse({'reply': 'Send a POST request with your message.'}, status=400)
