@@ -17,8 +17,6 @@ import os
 import stripe
 from dotenv import load_dotenv
 from .permission import login_required_custom, silver_required, pro_required, subscription_required
-
-# LangGraph / OpenAI imports for chatbot
 from typing import TypedDict, Annotated
 from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 from langchain_openai import ChatOpenAI
@@ -27,12 +25,19 @@ from langgraph.graph.message import add_messages
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
-# ============ LLM Chatbot Setup ============
-llm = ChatOpenAI(
-    model="gpt-3.5-turbo",
-    temperature=0.5,
-    api_key=os.getenv('OPENAI_API_KEY', ''),
-)
+
+_llm_instance = None
+
+def _get_llm():
+    global _llm_instance
+    if _llm_instance is None:
+        _llm_instance = ChatOpenAI(
+            model=settings.OPENAI_MODEL,
+            temperature=0.5,
+            api_key=settings.OPENAI_API_KEY,
+        )
+        print("Initialized new LLM instance with model:", settings.OPENAI_MODEL)
+    return _llm_instance
 
 GYMPRO_SYSTEM_PROMPT = (
     "You are an intelligent, friendly, and knowledgeable fitness assistant for **GymPro**, "
@@ -79,7 +84,7 @@ def gym_chat_node(state: ChatState):
         SystemMessage(content=GYMPRO_SYSTEM_PROMPT),
         HumanMessage(content=user_query),
     ]
-    response = llm.invoke(chat_messages)
+    response = _get_llm().invoke(chat_messages)
     return {
         "messages": chat_messages + [response],
         "reply": response.content,
