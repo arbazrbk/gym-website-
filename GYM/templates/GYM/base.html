@@ -32,9 +32,10 @@
                     <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'images/logo.svg' %}" alt="Logu"></a>
                     <div class="collapse navbar-collapse main-menu">
                         <ul class="navbar-nav mr-auto" id="menu">
-                            <li class="nav-item submenu"><a class="nav-link" href="{% url 'home' %}">Home</a>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a>
                             </li>
                             <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'programs' %}">Programs</a></li>
                             {% if has_active_subscription %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'pricing' %}" style="color: #CDEA26;"><i class="fa-solid fa-crown"></i> {{ user_plan_name }}</a></li>
                             {% else %}

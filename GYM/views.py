@@ -102,7 +102,7 @@ def weight_loss(request):
     }
     return render(request, 'GYM/weight_loss_result.html', context)
 
-@pro_required
+@silver_required
 def muscle_gain_plan(request):
     # GET request: sirf form dikhao
     if request.method != 'POST':
@@ -547,7 +547,7 @@ def create_checkout_session(request, plan_id):
     else:
         amount = int(selected_plan.price * 100)
     
-    # Stripe minimum amount check (~Rs. 150 = ~$0.50 USD)
+    
     if amount < 15000:
         messages.error(request, 'Plan price is too low for online payment. Minimum Rs. 150 required.')
         return redirect('pricing')
@@ -706,3 +706,5 @@ def pricing(request):
         'STRIPE_PUBLISHABLE_KEY': settings.STRIPE_PUBLISHABLE_KEY,
     })
     
+def chatbot(request):
+    return render(request, 'GYM/chatbot.html')

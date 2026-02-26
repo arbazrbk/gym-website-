@@ -4,9 +4,6 @@ from django.contrib import messages
 from .models import SubcriptionModel
 
 
-# ============================================================
-# PLAN HIERARCHY: Free (no sub) < Silver < Pro
-# ============================================================
 PLAN_LEVELS = {
     'free': 0,
     'basic': 0,

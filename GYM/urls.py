@@ -33,4 +33,5 @@ urlpatterns = [
     path('subscribe/<int:plan_id>/', views.create_checkout_session, name='subscribe'),
     path('payment-success/', views.payment_success, name='payment_success'),
     path('payment-cancel/', views.payment_cancel, name='payment_cancel'),
+    path('chatbot/', views.chatbot, name='chatbot'),
 ]
