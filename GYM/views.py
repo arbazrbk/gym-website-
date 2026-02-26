@@ -28,12 +28,10 @@ from langgraph.graph.message import add_messages
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 # ============ LLM Chatbot Setup ============
-OPENAI_API_KEY = os.getenv('OPENAI_API_KEY', '')
-
 llm = ChatOpenAI(
     model="gpt-3.5-turbo",
     temperature=0.5,
-    api_key=OPENAI_API_KEY,
+    api_key=os.getenv('OPENAI_API_KEY', ''),
 )
 
 GYMPRO_SYSTEM_PROMPT = (
@@ -51,6 +49,8 @@ GYMPRO_SYSTEM_PROMPT = (
     "- If the user asks about weight loss, mention the Weight Loss program.\n"
     "- If the user asks about muscle/strength/bulking, mention the Muscle Building program.\n"
     "- If the user asks about plans/pricing/subscription, mention Silver and Pro plans.\n"
+    "- If the user has any issue, problem, complaint, bug, suggestion, or wants to give feedback/review, "
+    "politely tell them to submit their feedback through our feedback form and ALWAYS add [REDIRECT:/feedback/].\n"
     "- For unrelated topics, politely redirect to fitness topics.\n"
     "- NEVER make up features that don't exist on GymPro.\n"
     "- Reply in the same language the user writes in (English or Urdu/Roman Urdu).\n\n"
@@ -62,7 +62,7 @@ GYMPRO_SYSTEM_PROMPT = (
     "[REDIRECT:/protein/] — if user asks about protein products\n"
     "[REDIRECT:/shirt/] — if user asks about shirts\n"
     "[REDIRECT:/shoes/] — if user asks about shoes\n"
-    "[REDIRECT:/feedback/] — if user asks about feedback/reviews\n"
+    "[REDIRECT:/feedback/] — if user has any issue, problem, complaint, suggestion, feedback, or review\n"
     "[REDIRECT:/contact/] — if user asks about contact/support\n"
     "If no redirect is needed, don't add any tag."
 )
