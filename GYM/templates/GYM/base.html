@@ -53,7 +53,6 @@
                                     <li><a href="{% url 'testimonials' %}">Reviews</a></li>
                                     <li><a href="{% url 'feedback' %}">Feedback</a></li>
                                     <li><a href="{% url 'orders' %}">Orders</a></li>
-                                    <li><a href="{% url 'about' %}">About_us</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item"><a class="nav-link" href="{% url 'showcart' %}"><i class="fa-solid fa-cart-shopping"></i> Cart</a></li>
@@ -75,17 +74,88 @@
 
     {% block content %}{% endblock %}
 
-    <footer class="main-footer bg-section dark-section">
+<footer class="main-footer bg-section dark-section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="footer-header">
-                        <div class="footer-logo"><img src="{% static 'images/logo.svg' %}" alt=""></div>
-                        <div class="section-title"><h2>Empowering Your Fitness Journey with Expert Training and Lasting Results</h2></div>
+                        <div class="footer-logo">
+                            <img src="{% static 'images/logo.svg' %}" alt="GymPro">
+                        </div>
+                        <div class="section-title">
+                            <h2 data-cursor="-opaque">Empowering Your Fitness Journey with Expert Training and Lasting Results</h2>
+                        </div>
                     </div>
                 </div>
+
+                <div class="col-xl-4">
+                    <div class="about-footer">
+                        <div class="about-footer-content">
+                            <h2>Our Location</h2>
+                            <p>Our supportive and knowledgeable trainers work with members to provide encouragement.</p>
+                        </div>
+                        <div class="about-footer-item">
+                            <div class="about-footer-item-image">
+                                <figure>
+                                    <img src="{% static 'images/footer-location-map.png' %}" alt="Map">
+                                </figure>
+                            </div>
+                            <div class="about-footer-item-content">
+                                <p>2nd Floor, Wellness Plaza, Main Street, City Center</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            <div class="footer-copyright-text"><p>Copyright © 2026 All Rights Reserved.</p></div>
+
+                <div class="col-xl-8">
+                    <div class="footer-links-box">
+                        <div class="footer-links">
+                            <h2>Quick Links</h2>
+                            <ul>
+                                <li><a href="{% url 'home' %}">Home</a></li>
+                                <li><a href="{% url 'about' %}">About Us</a></li>
+                                <li><a href="{% url 'programs' %}">Programs</a></li>
+                                <li><a href="{% url 'pricing' %}">Pricing Plan</a></li> <li><a href="{% url 'testimonials' %}">Reviews</a></li> </ul>
+                        </div>
+
+                        <div class="footer-links">
+                            <h2>Training Programs</h2>
+                            <ul>
+                                <li><a href="{% url 'programs' %}">Strength Training</a></li>
+                                <li><a href="{% url 'programs' %}">Weight Loss Program</a></li>
+                                <li><a href="{% url 'programs' %}">Group Fitness Classes</a></li>
+                                <li><a href="{% url 'programs' %}">Muscle Building Program</a></li>
+                                <li><a href="{% url 'programs' %}">Beginner Fitness Program</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-links footer-working-hour-box">
+                            <div class="footer-contact-content">
+                                <h2>Working Hours</h2>
+                                <ul>
+                                    <li>Mon - Fri: 6:00 AM - 10:30 PM</li>
+                                    <li>Saturday: 7:00 AM - 9:00 PM</li>
+                                </ul>
+                            </div>
+
+                            <div class="footer-social-links">
+                                <ul>
+                                    <li><a href="#"><i class="fa-brands fa-pinterest-p"></i></a></li>
+                                    <li><a href="#"><i class="fa-brands fa-x-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                    <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12">
+                    <div class="footer-copyright-text">
+                        <p>Copyright © 2026 All Rights Reserved.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </footer>
 

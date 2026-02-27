@@ -1,30 +1,112 @@
 {% extends "GYM/base.html" %}
+{% load static %}
 {% block title %}About Us - Gympro{% endblock %}
 {% block content %}
     <div class="page-header bg-section dark-section parallaxie">
         <div class="container">
-            <div class="page-header-box">
-                <h1 class="text-anime-style-3">About Us</h1>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="page-header-box">
+                        <h1 class="text-anime-style-3" data-cursor="-opaque">About Us</h1>
+                        <nav class="wow fadeInUp">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'home' %}">home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">About Us</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <div class="about-us">
         <div class="container">
-            <div class="row">
-                <div class="col-md-8 mx-auto">
-                    <div class="about-content">
-                        <h2>Welcome to GymPro Fitness!</h2>
-                        <p>At GymPro, our mission is to empower you to achieve your fitness goals with expert guidance, premium facilities, and a supportive community. Whether you’re aiming for weight loss, muscle gain, or overall wellness, we have specialized programs and certified trainers to help you every step of the way.</p>
-                        <p>We offer a wide range of workout programs, nutrition advice, and access to top-quality fitness products. Our Silver and Pro subscription plans unlock exclusive content, personalized coaching, and access to our shop for supplements, apparel, and more.</p>
-                        <p>Join GymPro and become part of a vibrant fitness family. Your journey starts here—let’s get stronger together! 💪🔥</p>
-                        <ul>
-                            <li>Expert Trainers & Personalized Plans</li>
-                            <li>Modern Equipment & Facilities</li>
-                            <li>Protein Supplements, Gym Apparel, Shoes</li>
-                            <li>Motivational Community & Support</li>
-                        </ul>
-                        <p>Ready to transform your life? <a href="{% url 'programs' %}" class="btn btn-success">Explore Programs</a></p>
+            <div class="row align-items-center">
+                <div class="col-xl-6">
+                    <div class="about-us-image-box wow fadeInUp">
+                        <div class="about-us-image">
+                            <figure class="image-anime">
+                                <img src="{% static 'images/about-us-image-1.jpg' %}" alt="Gym Interior" class="img-fluid rounded shadow" style="max-height:850px; width:150%; object-fit:cover;">
+                            </figure>
+                        </div>
+                        <div class="about-us-cta-box mt-3">
+                            <div class="google-rating-box">
+                                <span class="google-rating-title">Google Reviews</span>
+                                <span class="google-rating-score">4.9/5</span>
+                                <span class="google-rating-stars">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </span>
+                                <span class="google-rating-count">Over 4200 Reviews</span>
+                            </div>
+                        </div>
                     </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="about-us-content-box">
+                        <div class="section-title">
+                            <span class="section-sub-title wow fadeInUp">About Our Gym</span>
+                            <h2 class="text-anime-style-3" data-cursor="-opaque">A supportive fitness built for every body</h2>
+                            <p class="wow fadeInUp" data-wow-delay="0.2s">GymPro is more than a gym—it's a community that supports every fitness journey. From beginners to advanced athletes, we provide structured training, expert coaching, and a motivating environment.</p>
+                        </div>
+                        <div class="about-us-item-list wow fadeInUp" data-wow-delay="0.4s">
+                            <div class="about-us-item">
+                                <div class="icon-box">
+                                    <img src="{% static 'images/icon-our-approach-1.svg' %}" alt="">
+                                </div>
+                                <div class="about-us-item-content">
+                                    <h3>Smart Training Programs</h3>
+                                    <p>Structured workout plans designed to match your fitness level.</p>
+                                </div>
+                            </div>
+                            <div class="about-us-item">
+                                <div class="icon-box">
+                                    <img src="{% static 'images/icon-our-approach-2.svg' %}" alt="">
+                                </div>
+                                <div class="about-us-item-content">
+                                    <h3>Strength & Conditioning</h3>
+                                    <p>Focused training to build muscle, increase strength, and boost fitness.</p>
+                                </div>
+                            </div>
+                            <div class="about-us-item">
+                                <div class="icon-box">
+                                    <img src="{% static 'images/icon-our-approach-3.svg' %}" alt="">
+                                </div>
+                                <div class="about-us-item-content">
+                                    <h3>Fat Loss Programs</h3>
+                                    <p>Effective cardio routines designed to improve endurance and burn fat.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="about-us-body wow fadeInUp" data-wow-delay="0.6s">
+                            <div class="about-us-body-list">
+                                <ul>
+                                    <li>Expert Trainers & Personalized Plans</li>
+                                    <li>Modern Equipment & Facilities</li>
+                                    <li>Protein Supplements, Gym Apparel, Shoes</li>
+                                    <li>Motivational Community & Support</li>
+                                </ul>
+                            </div>
+                            <div class="contact-us-circle mt-3">
+                                <a href="{% url 'contact' %}" class="btn btn-primary">Contact Us</a>
+                            </div>
+                        </div>
+                        <div class="about-us-btn wow fadeInUp mt-4" data-wow-delay="0.8s">
+                            <a href="{% url 'about' %}" class="btn-default">More About Us</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-md-12 text-center">
+                    <h3>Motivational Quotes</h3>
+                    <blockquote class="blockquote">“The only bad workout is the one you didn’t do.”</blockquote>
+                    <blockquote class="blockquote">“Push yourself, because no one else is going to do it for you.”</blockquote>
+                    <blockquote class="blockquote">“Success starts with self-discipline.”</blockquote>
+                    <blockquote class="blockquote">“Fitness is not about being better than someone else. It’s about being better than you used to be.”</blockquote>
                 </div>
             </div>
         </div>
