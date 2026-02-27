@@ -285,12 +285,15 @@ def error_404(request):
 
 @silver_required
 def feedback(request):
-    form = FeedbackForm(request.POST )
-    if form.is_valid():
-        form.save()
-        messages.success(request, 'Feedback submitted successfully!')
-        return render(request, 'GYM/feedback.html', {'form': form})
-    return render(request, 'GYM/feedback.html')
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Feedback submitted successfully!')
+            return render(request, 'GYM/feedback.html', {'form': FeedbackForm()})
+    else:
+        form = FeedbackForm()
+    return render(request, 'GYM/feedback.html', {'form': form})
 
 class customer_registration(View):
     def get(self, request):

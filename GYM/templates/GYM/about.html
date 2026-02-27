@@ -2,10 +2,31 @@
 {% block title %}About Us - Gympro{% endblock %}
 {% block content %}
     <div class="page-header bg-section dark-section parallaxie">
-        <div class="container"><div class="page-header-box"><h1 class="text-anime-style-3">About Us</h1></div></div>
+        <div class="container">
+            <div class="page-header-box">
+                <h1 class="text-anime-style-3">About Us</h1>
+            </div>
+        </div>
     </div>
     <div class="about-us">
         <div class="container">
+            <div class="row">
+                <div class="col-md-8 mx-auto">
+                    <div class="about-content">
+                        <h2>Welcome to GymPro Fitness!</h2>
+                        <p>At GymPro, our mission is to empower you to achieve your fitness goals with expert guidance, premium facilities, and a supportive community. Whether you’re aiming for weight loss, muscle gain, or overall wellness, we have specialized programs and certified trainers to help you every step of the way.</p>
+                        <p>We offer a wide range of workout programs, nutrition advice, and access to top-quality fitness products. Our Silver and Pro subscription plans unlock exclusive content, personalized coaching, and access to our shop for supplements, apparel, and more.</p>
+                        <p>Join GymPro and become part of a vibrant fitness family. Your journey starts here—let’s get stronger together! 💪🔥</p>
+                        <ul>
+                            <li>Expert Trainers & Personalized Plans</li>
+                            <li>Modern Equipment & Facilities</li>
+                            <li>Protein Supplements, Gym Apparel, Shoes</li>
+                            <li>Motivational Community & Support</li>
+                        </ul>
+                        <p>Ready to transform your life? <a href="{% url 'programs' %}" class="btn btn-success">Explore Programs</a></p>
+                    </div>
+                </div>
             </div>
+        </div>
     </div>
 {% endblock %}
