@@ -29,18 +29,29 @@
             </div>
             <div class="row">
                 {% for review in review %}
-                <div class="col-md-6 col-lg-4">
-                    <div class="testimonial-item wow fadeInUp">
-                        <div class="testimonial-content">
-                            <p>"{{ review.comment }}"</p>
-                        </div>
-                        <div class="testimonial-author">
-                            <div class="author-image">
-                                <figure class="image-anime"><img src="{% static 'images/author-1.jpg' %}" alt="Member Photo"></figure>
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="testimonial-item shadow-sm rounded p-4 h-100 d-flex flex-column" style="background: #fff; min-height: 320px;">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <div>
+                                {% for i in "12345"|make_list %}
+                                    {% if forloop.counter <= review.ratting %}
+                                        <i class="fa-solid fa-star" style="color:#CDEA26;font-size:1.1rem;"></i>
+                                    {% else %}
+                                        <i class="fa-regular fa-star" style="color:#CDEA26;font-size:1.1rem;"></i>
+                                    {% endif %}
+                                {% endfor %}
                             </div>
+                            <div><i class="fa-solid fa-quote-right" style="font-size:2rem;color:#eaeaea;"></i></div>
+                        </div>
+                        <div class="testimonial-item-body flex-grow-1">
+                            <h5 class="mb-2" style="font-size:1.08rem;color:#222;font-weight:600;">{{ review.title }}</h5>
+                            <p class="mb-4" style="font-size:1.02rem;line-height:1.6;color:#222;">" {{ review.message }} "</p>
+                        </div>
+                        <div class="testimonial-author d-flex align-items-center mt-auto pt-3 border-top">
+                            <div class="author-image mr-3"><img src="{% static 'images/author-1.jpg' %}" alt="" style="width:40px;height:40px;border-radius:50%;object-fit:cover;"></div>
                             <div class="author-info">
-                                <h4>{{ review.name }}</h4>
-                                <span>{{ review.rating }} Stars</span>
+                                <h4 class="mb-0" style="font-size:1rem;font-weight:600;color:#222;">{{ review.user.username }}</h4>
+                                <p class="mb-0" style="font-size:0.9rem;color:#888;">{{ review.submitted_at|date:"M d, Y H:i" }}</p>
                             </div>
                         </div>
                     </div>
