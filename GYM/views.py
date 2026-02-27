@@ -22,6 +22,7 @@ from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 from langchain_openai import ChatOpenAI
 from langgraph.graph import StateGraph, START, END
 from langgraph.graph.message import add_messages
+from django.core.paginator import Paginator
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -271,7 +272,12 @@ def trainer_details(request):
 
 
 def testimonials(request):
-    review = Feedback.objects.all()
+    review_list = Feedback.objects.all().order_by('-id') # Latest reviews pehle
+    paginator = Paginator(review_list, 6) # Ek page par sirf 6 reviews
+
+    page_number = request.GET.get('page')
+    review = paginator.get_page(page_number)
+    
     return render(request, 'GYM/testimonials.html', {'review': review})
 
 def faqs(request):

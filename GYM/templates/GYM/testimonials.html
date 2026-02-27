@@ -21,52 +21,43 @@
             </div>
         </div>
     </div>
-
-    <div class="our-testimonials page-testimonials bg-section">
+    <div class="testimonials">
         <div class="container">
+            <div class="section-title text-center">
+                <span class="section-sub-title wow fadeInUp">What Our Members Say</span>
+                <h2 class="text-anime-style-3" data-cursor="-opaque">Real Stories from Our Satisfied Members</h2>
+            </div>
             <div class="row">
-                {% for r in review %}
-                <div class="col-xl-6">
-                    <div class="testimonial-item wow fadeInUp" data-wow-delay="0.{{ forloop.counter }}s">
-                        <div class="testimonial-item-header">
-                            <div class="testimonial-item-rating">
-                                {% for i in "12345"|make_list %}
-                                    {% if forloop.counter <= r.ratting %}
-                                        <i class="fa-solid fa-star"></i>
-                                    {% else %}
-                                        <i class="fa-regular fa-star"></i>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                            <div class="testimonial-item-quote"><img src="{% static 'images/testimonial-quote.svg' %}" alt=""></div>
+                {% for review in review %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="testimonial-item wow fadeInUp">
+                        <div class="testimonial-content">
+                            <p>"{{ review.comment }}"</p>
                         </div>
-                        <div class="testimonial-item-body">
-                            <p>" {{ r.message }} "</p>
-                            <div class="testimonial-item-author">
-                                <div class="testimonial-author-image"><img src="{% static 'images/author-1.jpg' %}" alt=""></div>
-                                <div class="testimonial-author-content">
-                                    <h2>{{ r.user.username }}</h2>
-                                    <p>{{ r.title }}</p>
-                                </div>
+                        <div class="testimonial-author">
+                            <div class="author-image">
+                                <figure class="image-anime"><img src="{% static 'images/author-1.jpg' %}" alt="Member Photo"></figure>
+                            </div>
+                            <div class="author-info">
+                                <h4>{{ review.name }}</h4>
+                                <span>{{ review.rating }} Stars</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                {% empty %}
-                <div class="col-12 text-center py-5">
-                    <h3 style="color: var(--primary-color);">No reviews yet. Be the first to share your experience!</h3>
-                    <a href="{% url 'feedback' %}" class="btn-default btn-highlighted mt-3">Submit Feedback</a>
-                </div>
                 {% endfor %}
             </div>
+            <div class="pagination-box text-center">
+                <span class="pagination-info">Page {{ review.number }} of {{ review.paginator.num_pages }}</span>
+                <div class="pagination-controls">
+                    {% if review.has_previous %}
+                        <a href="?page={{ review.previous_page_number }}" class="btn-default">Previous</a>
+                    {% endif %}
+                    {% if review.has_next %}
+                        <a href="?page={{ review.next_page_number }}" class="btn-default">Next</a>
+                    {% endif %}
+                </div>
+            </div>
         </div>
-    </div>
-
-    <div class="company-supports-slider-box wow fadeInUp">
-        <div class="container">
-            <div class="company-supports-content">
-                <hr><p>Trusted by Leading Sports Organizations & Sponsors</p><hr>
-            </div>
-            </div>
     </div>
 {% endblock %}
