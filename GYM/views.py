@@ -272,7 +272,8 @@ def trainer_details(request):
 
 
 def testimonials(request):
-    review_list = Feedback.objects.all().order_by('-id') # Latest reviews pehle
+    # Pehle rating (ratting) descending, phir latest id descending
+    review_list = Feedback.objects.all().order_by('-ratting', '-id')
     paginator = Paginator(review_list, 6) # Ek page par sirf 6 reviews
 
     page_number = request.GET.get('page')

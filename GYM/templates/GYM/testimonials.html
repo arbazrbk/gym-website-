@@ -4,6 +4,7 @@
 {% block title %}Testimonials - Gympro Fitness{% endblock %}
 
 {% block content %}
+    <!-- Page Header -->
     <div class="page-header bg-section dark-section parallaxie">
         <div class="container">
             <div class="row">
@@ -21,61 +22,151 @@
             </div>
         </div>
     </div>
-    <div class="testimonials">
+
+    <!-- Testimonials Section -->
+    <div class="testimonials" style="background: #fff; padding: 80px 0;">
         <div class="container">
-            <div class="section-title text-center">
-                <span class="section-sub-title wow fadeInUp">What Our Members Say</span>
-                <h2 class="text-anime-style-3" data-cursor="-opaque">Real Stories from Our Satisfied Members</h2>
+            <!-- Section Title -->
+            <div class="section-title text-center mb-5">
+                <span class="section-sub-title wow fadeInUp" style="color: #666; font-size: 14px; text-transform: uppercase; letter-spacing: 2px;">What Our Members Say</span>
+                <h2 class="text-anime-style-3 mt-2" data-cursor="-opaque" style="font-size: 2.5rem; font-weight: 700; color: #222;">Real Stories from Our Satisfied Members</h2>
             </div>
+
+            <!-- Testimonials Grid -->
             <div class="row">
                 {% for review in review %}
                 <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="testimonial-item shadow-sm rounded p-4 h-100 d-flex flex-column" style="background: #fff; min-height: 320px;">
-                        <div class="d-flex align-items-center justify-content-between mb-2">
-                            <div>
-                                {% for i in "12345"|make_list %}
-                                    {% if forloop.counter <= review.ratting %}
-                                        <i class="fa-solid fa-star" style="color:#CDEA26;font-size:1.1rem;"></i>
-                                    {% else %}
-                                        <i class="fa-regular fa-star" style="color:#CDEA26;font-size:1.1rem;"></i>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                            <div><i class="fa-solid fa-quote-right" style="font-size:2rem;color:#eaeaea;"></i></div>
+                    <div class="testimonial-card" style="background: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 2px 20px rgba(0,0,0,0.08); min-height: 280px; transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                        <!-- Quote Icon -->
+                        <div class="quote-icon mb-3">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z" fill="#e0e0e0"/>
+                            </svg>
                         </div>
-                        <div class="testimonial-item-body flex-grow-1">
-                            <p class="mb-4" style="font-size:1.02rem;line-height:1.6;color:#222;">" {{ review.message }} "</p>
+                        
+                        <!-- Testimonial Text -->
+                        <div class="testimonial-text mb-3">
+                            <p style="font-size: 1rem; line-height: 1.7; color: #444; margin: 0;">{{ review.message }}</p>
                         </div>
-                        <div class="testimonial-author d-flex align-items-center mt-auto pt-3 border-top">
-                            <div class="author-image" style="margin-right: 16px;"><img src="{% static 'images/author-1.jpg' %}" alt="" style="width:40px;height:40px;border-radius:50%;object-fit:cover;"></div>
-                            <div class="author-info" style="display: flex; flex-direction: column; gap: 6px;">
-                                <h4 class="mb-0" style="font-size:1rem;font-weight:600;color:#222;">{{ review.user.username }}</h4>
-                                <div>
-                                    {% for i in "12345"|make_list %}
-                                        {% if i|add:'0' <= review.ratting %}
-                                            <i class="fa-solid fa-star" style="color:#CDEA26;font-size:1.1rem;"></i>
+                        
+                        <!-- Star Rating - Fixed with SVG stars -->
+                        <div class="star-rating mb-4">
+                            {% with rating=review.ratting|default:0|floatformat:1 %}
+                                {% with rating_int=rating|floatformat:0 %}
+                                    {% for i in "12345" %}
+                                        {% if forloop.counter <= rating_int|add:0 %}
+                                            <!-- Full Star -->
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFC107" xmlns="http://www.w3.org/2000/svg" style="display: inline-block; margin-right: 2px;">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                            </svg>
+                                        {% elif forloop.counter == rating_int|add:1 and rating|slice:"-2:" == ".5" %}
+                                            <!-- Half Star -->
+                                            <svg width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display: inline-block; margin-right: 2px;">
+                                                <defs>
+                                                    <linearGradient id="halfGrad{{ review.id }}_{{ forloop.counter }}">
+                                                        <stop offset="50%" stop-color="#FFC107"/>
+                                                        <stop offset="50%" stop-color="#e0e0e0"/>
+                                                    </linearGradient>
+                                                </defs>
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="url(#halfGrad{{ review.id }}_{{ forloop.counter }})"/>
+                                            </svg>
                                         {% else %}
-                                            <i class="fa-regular fa-star" style="color:#CDEA26;font-size:1.1rem;"></i>
+                                            <!-- Empty Star -->
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#e0e0e0" xmlns="http://www.w3.org/2000/svg" style="display: inline-block; margin-right: 2px;">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                            </svg>
                                         {% endif %}
                                     {% endfor %}
-                                </div>
+                                {% endwith %}
+                            {% endwith %}
+                        </div>
+                        
+                        <!-- Divider -->
+                        <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+                        
+                        <!-- Author Info -->
+                        <div class="testimonial-author d-flex align-items-center">
+                            <div class="author-image" style="margin-right: 15px;">
+                                {% if review.user.profile_image %}
+                                    <img src="{{ review.user.profile_image.url }}" alt="{{ review.user.username }}" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid #f0f0f0;">
+                                {% else %}
+                                    <img src="{% static 'images/author-1.jpg' %}" alt="{{ review.user.username }}" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid #f0f0f0;">
+                                {% endif %}
+                            </div>
+                            <div class="author-info">
+                                <h4 style="font-size: 1rem; font-weight: 600; color: #222; margin: 0 0 3px 0;">{{ review.user.get_full_name|default:review.user.username }}</h4>
+                                <span style="font-size: 0.85rem; color: #888;">Gym Member</span>
                             </div>
                         </div>
                     </div>
                 </div>
+                {% empty %}
+                <div class="col-12 text-center">
+                    <p style="color: #666; font-size: 1.1rem;">No testimonials available yet.</p>
+                </div>
                 {% endfor %}
             </div>
-            <div class="pagination-box text-center">
-                <span class="pagination-info">Page {{ review.number }} of {{ review.paginator.num_pages }}</span>
-                <div class="pagination-controls">
+
+            <!-- Pagination -->
+            {% if review.paginator.num_pages > 1 %}
+            <div class="pagination-wrapper text-center mt-5">
+                <div class="pagination" style="display: inline-flex; align-items: center; gap: 10px;">
+                    <!-- Previous Button -->
                     {% if review.has_previous %}
-                        <a href="?page={{ review.previous_page_number }}" class="btn-default">Previous</a>
+                        <a href="?page={{ review.previous_page_number }}" class="page-btn" style="padding: 10px 25px; border: 1px solid #ddd; border-radius: 6px; text-decoration: none; color: #333; font-size: 0.95rem; transition: all 0.3s ease; background: #fff;">
+                            Previous
+                        </a>
+                    {% else %}
+                        <span class="page-btn disabled" style="padding: 10px 25px; border: 1px solid #eee; border-radius: 6px; color: #aaa; font-size: 0.95rem; background: #f9f9f9; cursor: not-allowed;">
+                            Previous
+                        </span>
                     {% endif %}
+                    
+                    <!-- Page Info -->
+                    <span class="page-info" style="padding: 10px 20px; font-size: 0.95rem; color: #666;">
+                        Page {{ review.number }} of {{ review.paginator.num_pages }}
+                    </span>
+                    
+                    <!-- Next Button -->
                     {% if review.has_next %}
-                        <a href="?page={{ review.next_page_number }}" class="btn-default">Next</a>
+                        <a href="?page={{ review.next_page_number }}" class="page-btn" style="padding: 10px 25px; border: 1px solid #ddd; border-radius: 6px; text-decoration: none; color: #333; font-size: 0.95rem; transition: all 0.3s ease; background: #fff;">
+                            Next
+                        </a>
+                    {% else %}
+                        <span class="page-btn disabled" style="padding: 10px 25px; border: 1px solid #eee; border-radius: 6px; color: #aaa; font-size: 0.95rem; background: #f9f9f9; cursor: not-allowed;">
+                            Next
+                        </span>
                     {% endif %}
                 </div>
             </div>
+            {% endif %}
         </div>
     </div>
+
+    <!-- Hover Effects CSS -->
+    <style>
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12) !important;
+        }
+        
+        .page-btn:hover:not(.disabled) {
+            background: #CDEA26 !important;
+            border-color: #CDEA26 !important;
+            color: #222 !important;
+        }
+        
+        .star-rating svg {
+            vertical-align: middle;
+        }
+        
+        @media (max-width: 768px) {
+            .testimonials {
+                padding: 50px 0 !important;
+            }
+            .section-title h2 {
+                font-size: 1.8rem !important;
+            }
+        }
+    </style>
 {% endblock %}
